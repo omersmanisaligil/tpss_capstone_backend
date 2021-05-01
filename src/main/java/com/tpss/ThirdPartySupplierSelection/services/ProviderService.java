@@ -63,13 +63,13 @@ public class ProviderService extends GenericService{
         addProviderRequest.getOperationArea()
         );
 
-        if (certName != null || certName.length() > 0) {
+        if (certName != null && certName.length() > 0) {
             Certificate cert=new Certificate(certName);
 
             certificateService.addCertificate(cert);
             provider.insertCertificates(cert);
         }
-        if (productName != null || productName.length() > 0){
+        if (productName != null && productName.length() > 0){
             Product product=new Product(productName,
             addProviderRequest.getIdealTemp(),
             addProviderRequest.getTempUnit(),
