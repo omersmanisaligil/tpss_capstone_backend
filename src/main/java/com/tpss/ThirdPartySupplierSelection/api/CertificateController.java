@@ -1,0 +1,60 @@
+package com.tpss.ThirdPartySupplierSelection.api;
+
+import com.tpss.ThirdPartySupplierSelection.entity.Certificate;
+import com.tpss.ThirdPartySupplierSelection.services.CertificateService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/certificates")
+public class CertificateController {
+
+    @Autowired
+    private CertificateService certificateService;
+
+    public CertificateController(CertificateService certificateService){
+	this.certificateService = certificateService;
+    }
+
+    @GetMapping(path="")
+    public ResponseEntity<Page<Certificate>> getAll(
+    @RequestParam(name="page", defaultValue = "0") int page,
+    @RequestParam(name="size", defaultValue = "3") int size
+    //,@RequestParam(name="sort", defaultValue = "id") String[] sort
+    ){
+	Page<Certificate> allCertificates = certificateService.getAll(page,size);
+	return ResponseEntity.status(HttpStatus.OK).body(allCertificates);
+    }
+
+    @GetMapping(path="{id}")
+    public ResponseEntity<Certificate> getOneByID(@PathVariable("id") Long id){
+	Certificate certificate = certificateService.getOneByID(id).get();
+	return ResponseEntity.status(HttpStatus.OK).body(certificate);
+    }
+
+    @PostMapping(path="/add")
+    public ResponseEntity<?> addCertificate(@Validated @NonNull @RequestBody Certificate certificate){
+	certificateService.addCertificate(certificate);
+	return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping(path="/edit/{id}")
+    public ResponseEntity<Certificate> updateCertificate(@Validated @NonNull @RequestBody Certificate certificate,
+					   @PathVariable("id") Long id){
+
+	Certificate updatedCertificate = certificateService.updateCertificate(certificate,id);
+	return ResponseEntity.status(HttpStatus.OK).body(updatedCertificate);
+    }
+
+
+    @DeleteMapping(path="/delete/{id}")
+    public ResponseEntity<?> deleteCertificate(@PathVariable("id") Long id){
+	certificateService.deleteCertificate(id);
+	return ResponseEntity.status(HttpStatus.OK).build();
+    }
+}
