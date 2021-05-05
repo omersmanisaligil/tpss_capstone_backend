@@ -10,9 +10,13 @@ import java.util.Optional;
 public interface ProductDAO extends JpaRepository<Product,Long> {
     Optional<Product> findById(Long id);
 
+    Optional<Product> findByProductName(String productName);
+
     @Override
     Product save(Product product);
 
     @Override
     Page<Product> findAll(Pageable pageable);
+
+    Boolean existsByProductName(String productName);
 }

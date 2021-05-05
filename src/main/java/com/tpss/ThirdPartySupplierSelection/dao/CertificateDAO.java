@@ -14,7 +14,6 @@ public interface CertificateDAO extends JpaRepository<Certificate,Long> {
 
     Boolean existsByCertName(String certName);
 
-
     @Override
     Page<Certificate> findAll(Pageable pageable);
 }

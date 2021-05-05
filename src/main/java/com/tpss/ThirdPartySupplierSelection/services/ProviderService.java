@@ -52,6 +52,7 @@ public class ProviderService extends GenericService{
     }
 
     public void addProvider(AddProviderRequest addProviderRequest) {
+        String responseMessage = "addProvider:: ";
         String certName = addProviderRequest.getCertName();
         String productName = addProviderRequest.getProductName();
         //TODO write mapper class
@@ -64,20 +65,26 @@ public class ProviderService extends GenericService{
         );
 
         if (certName != null && certName.length() > 0) {
-            Certificate cert=new Certificate(certName);
 
-            certificateService.addCertificate(cert);
-            provider.insertCertificates(cert);
+            if(certificateService.existsByCertName(certName.toUpperCase())) {
+                Certificate cert = certificateService.getOneByCertName(certName).get();
+
+                provider.insertCertificates(cert);
+            }
+            else{
+                responseMessage += "certificate not recognized";
+            }
         }
         if (productName != null && productName.length() > 0){
-            Product product=new Product(productName,
-            addProviderRequest.getIdealTemp(),
-            addProviderRequest.getTempUnit(),
-            addProviderRequest.getIdealHumidity(),
-            addProviderRequest.getHumidityUnit());
 
-            productService.addProduct(product);
-            product.insertProvider(provider);
+            if(productService.existsByProductName(productName.toUpperCase())){
+                Product product = productService.getOneByProductName(productName).get();
+
+                product.insertProvider(provider);
+            }
+            else{
+                responseMessage += "product not recognized, not found in database";
+            }
         }
 
         providerDAO.save(provider);

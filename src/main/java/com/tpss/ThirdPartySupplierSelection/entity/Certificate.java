@@ -42,6 +42,10 @@ public class Certificate {
 	this.certId = certId;
     }
 
+    public void insertProvider(Provider provider){
+        providers.add(provider);
+    }
+
     @Override
     public String toString() {
 	return "Certificate{" +

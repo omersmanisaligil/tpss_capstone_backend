@@ -89,27 +89,7 @@ public class AuthService {
 	bCryptPasswordEncoder.encode(signUpRequest.getPassword()),
 	signUpRequest.getEmail());
 
-	/*Set<String> strRoles = signUpRequest.getRoles();
-	Set<Role> roles = new HashSet<>();
 
-	if (strRoles == null) {
-	    roles.add(userRole);
-	} else {
-	    strRoles.forEach(role -> {
-		switch (role) {
-		    case "admin":
-			roles.add(adminRole);
-			roles.add(personnelRole);
-			roles.add(userRole);
-			break;
-		    case "personnel":
-			roles.add(personnelRole);
-			roles.add(userRole);
-		    default:
-			roles.add(userRole);
-		}
-	    });
-	}*/
 	Set<Role> roles = userService.arrangeRoles(signUpRequest.getRole());
 	user.setUserRoles(roles);
 	userDAO.save(user);

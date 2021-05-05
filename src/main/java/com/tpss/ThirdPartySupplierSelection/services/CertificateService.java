@@ -14,19 +14,31 @@ import java.util.Optional;
 public class CertificateService extends GenericService{
 
     @Autowired
-    CertificateDAO certificateDAO;
+    private CertificateDAO certificateDAO;
 
     public Page<Certificate> getAll(int page, int size){
 	Pageable pageRequest = PageRequest.of(page, size);
-	Page<Certificate> certificates= certificateDAO.findAll(pageRequest);
+	Page<Certificate> certificates = certificateDAO.findAll(pageRequest);
 
 	return certificates;
     }
 
     public Optional<Certificate> getOneByID(Long id){
-	Optional<Certificate> certificate= certificateDAO.findById(id);
+	Optional<Certificate> certificate = certificateDAO.findById(id);
 
 	return certificate;
+    }
+
+    public boolean existsByCertName(String certName){
+        boolean exists = certificateDAO.existsByCertName(certName);
+
+        return exists;
+    }
+
+    public Optional<Certificate> getOneByCertName(String certName){
+        Optional<Certificate> certificate = certificateDAO.findByCertName(certName);
+
+        return certificate;
     }
 
     public Certificate updateCertificate(Certificate certificate, Long id){
@@ -46,6 +58,7 @@ public class CertificateService extends GenericService{
     }
 
     public void addCertificate(Certificate certificate){
-	    certificateDAO.save(certificate);
+	certificate.setCertName(certificate.getCertName().toUpperCase());
+        certificateDAO.save(certificate);
     }
 }

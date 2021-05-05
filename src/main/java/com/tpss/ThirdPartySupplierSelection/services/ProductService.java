@@ -8,13 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
 public class ProductService {
 
     @Autowired
-    ProductDAO productDAO;
+    private ProductDAO productDAO;
 
     public Page<Product> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
@@ -27,6 +28,18 @@ public class ProductService {
         Optional<Product> product = productDAO.findById(id);
 
         return product;
+    }
+
+    public Optional<Product> getOneByProductName(String productName){
+        Optional<Product> product = productDAO.findByProductName(productName);
+
+        return product;
+    }
+
+    public boolean existsByProductName(String productName){
+        boolean exists = productDAO.existsByProductName(productName);
+
+        return exists;
     }
 
     public Product updateProduct(Product product, Long id){
@@ -45,6 +58,7 @@ public class ProductService {
     }
 
     public void addProduct(Product product){
+        product.setProductName(product.getProductName().toUpperCase());
         productDAO.save(product);
     }
 }
