@@ -3,6 +3,7 @@ package com.tpss.ThirdPartySupplierSelection.services;
 import com.tpss.ThirdPartySupplierSelection.dao.ProviderDAO;
 import com.tpss.ThirdPartySupplierSelection.entity.*;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddProviderRequest;
+import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +20,12 @@ public class ProviderService extends GenericService{
 
     @Autowired
     CertificateService certificateService;
+
+    @Autowired
+    VehicleService vehicleService;
+
+    @Autowired
+    TechService techService;
 
     @Autowired
     ProductService productService;
@@ -52,9 +59,9 @@ public class ProviderService extends GenericService{
     }
 
     public void addProvider(AddProviderRequest addProviderRequest) {
-        String responseMessage = "addProvider:: ";
-        String certName = addProviderRequest.getCertName();
-        String productName = addProviderRequest.getProductName();
+        String responseMessage = "Operation: addProvider::\n ";
+        String[] certNames = addProviderRequest.getCertNames();
+        String[] productNames = addProviderRequest.getProductNames();
         //TODO write mapper class
         Provider provider = new Provider(
         addProviderRequest.getProviderName(),
@@ -64,27 +71,32 @@ public class ProviderService extends GenericService{
         addProviderRequest.getOperationArea()
         );
 
-        if (certName != null && certName.length() > 0) {
+        if (certNames != null && certNames.length > 0) {
+            for(String certName : certNames){
+                if(certificateService.existsByCertName(certName.toUpperCase())) {
+                    Certificate cert = certificateService.getOneByCertName(certName).get();
 
-            if(certificateService.existsByCertName(certName.toUpperCase())) {
-                Certificate cert = certificateService.getOneByCertName(certName).get();
-
-                provider.insertCertificates(cert);
-            }
-            else{
-                responseMessage += "certificate not recognized";
+                    provider.insertCertificates(cert);
+                }
+                else{
+                    responseMessage += " certificate " + certName +  " not recognized, it does not exist in the database\n" +
+                    " if this is a valid certificate, please define it";
+                }
             }
         }
-        if (productName != null && productName.length() > 0){
+        if (productNames != null && productNames.length > 0){
+            for(String productName : productNames){
+                if(productService.existsByProductName(productName.toUpperCase())){
+                    Product product = productService.getOneByProductName(productName).get();
 
-            if(productService.existsByProductName(productName.toUpperCase())){
-                Product product = productService.getOneByProductName(productName).get();
+                    product.insertProvider(provider);
+                }
+                else{
+                    responseMessage += " product " + productName + " not recognized, it does not exist in the database\n" +
+                    " if this is a valid product, please define it";
+                }
+            }
 
-                product.insertProvider(provider);
-            }
-            else{
-                responseMessage += "product not recognized, not found in database";
-            }
         }
 
         providerDAO.save(provider);
@@ -96,8 +108,10 @@ public class ProviderService extends GenericService{
         provider.insertOrder(order);
     }
 
-    public void insertVehicle(Vehicle vehicle, Long providerID){
+    public void insertVehicle(AddVehicleRequest vehicleRequest, Long providerID){
         Provider provider = providerDAO.getOne(providerID);
+
+        Vehicle vehicle = vehicleService.addVehicle(vehicleRequest);
 
         provider.insertVehicle(vehicle);
     }

@@ -1,6 +1,7 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
 import com.tpss.ThirdPartySupplierSelection.entity.Route;
+import com.tpss.ThirdPartySupplierSelection.payload.request.AddRouteToVehicle;
 import com.tpss.ThirdPartySupplierSelection.services.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,8 +51,8 @@ public class RouteController {
     }
 
     @PostMapping(path="/add")
-    public ResponseEntity<?> addRoute(@Validated @NonNull @RequestBody Route route){
-        routeService.addRoute(route);
+    public ResponseEntity<?> addRoute(@Validated @NonNull @RequestBody AddRouteToVehicle addRouteToVehicle){
+        routeService.addRoute(addRouteToVehicle);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

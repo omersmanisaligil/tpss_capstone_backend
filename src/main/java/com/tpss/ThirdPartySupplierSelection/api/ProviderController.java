@@ -5,14 +5,18 @@ import com.tpss.ThirdPartySupplierSelection.entity.Product;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
 import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddProviderRequest;
+import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import com.tpss.ThirdPartySupplierSelection.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
 @RequestMapping("/providers")
@@ -38,6 +42,7 @@ public class ProviderController {
     @GetMapping(path="{id}")
     public ResponseEntity<Provider> getOneByID(@PathVariable("id") Long id){
 	Provider provider = providerService.getOneByID(id).get();
+	Link link = linkTo(ProviderController.class).slash(provider.getProviderId()).withSelfRel();
 	return ResponseEntity.status(HttpStatus.OK).body(provider);
     }
 
@@ -54,9 +59,9 @@ public class ProviderController {
     }
 
     @PostMapping(path="{id}/insertVehicle")
-    public ResponseEntity<?> insertVehicle(@Validated @NonNull @RequestBody Vehicle vehicle,
+    public ResponseEntity<?> insertVehicle(@Validated @NonNull @RequestBody AddVehicleRequest addVehicleRequest,
 					   @PathVariable("id") Long providerID){
-	providerService.insertVehicle(vehicle,providerID);
+	providerService.insertVehicle(addVehicleRequest,providerID);
 	return ResponseEntity.status(HttpStatus.OK).build();
     }
 

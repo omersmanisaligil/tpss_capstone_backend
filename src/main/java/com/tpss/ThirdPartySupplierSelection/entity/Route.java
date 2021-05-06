@@ -33,6 +33,14 @@ public class Route {
 	this.to = to;
     }
 
+    public Route(String from,
+		 String to,
+		 String destinations) {
+	this.from = from;
+	this.to = to;
+	this.destinations = destinations;
+    }
+
     public Long getRouteId() {
 	return routeId;
     }

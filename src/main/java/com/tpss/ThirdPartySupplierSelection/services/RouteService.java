@@ -2,6 +2,8 @@ package com.tpss.ThirdPartySupplierSelection.services;
 
 import com.tpss.ThirdPartySupplierSelection.dao.RouteDAO;
 import com.tpss.ThirdPartySupplierSelection.entity.Route;
+import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
+import com.tpss.ThirdPartySupplierSelection.payload.request.AddRouteToVehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +17,9 @@ public class RouteService {
 
     @Autowired
     RouteDAO routeDAO;
+
+    @Autowired
+    VehicleService vehicleService;
 
     public Page<Route> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
@@ -65,7 +70,12 @@ public class RouteService {
         routeDAO.deleteById(id);
     }
 
-    public void addRoute(Route route){
+    public void addRoute(AddRouteToVehicle addRouteToVehicle){
+        Vehicle vehicle = vehicleService.getOneByID(addRouteToVehicle.getVehicleId()).get();
+
+        Route route = new Route(addRouteToVehicle.getFrom(),addRouteToVehicle.getTo(),
+                                addRouteToVehicle.getDestinations().toString());
         routeDAO.save(route);
+        vehicle.insertRoute(route);
     }
 }

@@ -4,6 +4,7 @@ import com.tpss.ThirdPartySupplierSelection.dao.VehicleDAO;
 import com.tpss.ThirdPartySupplierSelection.entity.Route;
 import com.tpss.ThirdPartySupplierSelection.entity.Tech;
 import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
+import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,9 @@ public class VehicleService {
 
     @Autowired
     VehicleDAO vehicleDAO;
+
+    @Autowired
+    TechService techService;
 
     public Page<Vehicle> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
@@ -46,8 +50,53 @@ public class VehicleService {
         vehicleDAO.deleteById(id);
     }
 
-    public void addVehicle(Vehicle vehicle){
+    public Vehicle addVehicle(AddVehicleRequest vehicleRequest){
+
+        Vehicle vehicle = new Vehicle(
+            vehicleRequest.getVehicleType(),
+            vehicleRequest.getVehicleModel(),
+            vehicleRequest.getVehicleCapacity(),
+            vehicleRequest.getCapacityUnit(),
+            vehicleRequest.getAreaCoverage(),
+            vehicleRequest.getCoverageUnit(),
+            vehicleRequest.getLowestTemp(),
+            vehicleRequest.getHighestTemp(),
+            vehicleRequest.getTempUnit(),
+            vehicleRequest.getLowestHumidity(),
+            vehicleRequest.getHighestHumidity(),
+            vehicleRequest.getHumidityUnit()
+        );
+
+        //todo looks ugly
+        String temperatureMonitoringTech = vehicleRequest.getTemperatureMonitoringTech();
+
+        String humidityMonitoringTech = vehicleRequest.getHumidityMonitoringTech();
+
+        String tempMaintainingTech = vehicleRequest.getTempMaintainingTech();
+
+        String humidityMaintainingTech = vehicleRequest.getHumidityMonitoringTech();
+        if(temperatureMonitoringTech!=null
+        || humidityMonitoringTech!=null
+        || humidityMaintainingTech!=null
+        || tempMaintainingTech!=null){
+
+            Tech tech = new Tech(
+            temperatureMonitoringTech,
+            humidityMonitoringTech,
+            tempMaintainingTech,
+            humidityMaintainingTech
+            );
+
+            techService.addTech(tech);
+            tech.insertVehicle(vehicle);
+
+            techService.addTech(tech);
+        }
+
+
         vehicleDAO.save(vehicle);
+
+        return vehicle;
     }
 
     public void insertRoute(Route route, Long vehicleID){

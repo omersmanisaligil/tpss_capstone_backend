@@ -2,6 +2,7 @@ package com.tpss.ThirdPartySupplierSelection.services;
 
 import com.tpss.ThirdPartySupplierSelection.dao.TechDAO;
 import com.tpss.ThirdPartySupplierSelection.entity.Tech;
+import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,7 +45,7 @@ public class TechService {
         techDAO.deleteById(id);
     }
 
-    public void addTech(Tech tech){
+    public void addTech(Tech tech) {
         techDAO.save(tech);
     }
 }

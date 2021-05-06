@@ -84,6 +84,33 @@ public class Vehicle {
 	this.humidityUnit = humidityUnit;
     }
 
+    public Vehicle(String vehicleType,
+		   String vehicleModel,
+		   Integer vehicleCapacity,
+		   String unit,
+		   Integer areaCoverage,
+		   String coverageUnit,
+		   Integer lowestTemp,
+		   Integer highestTemp,
+		   String tempUnit,
+		   Integer lowestHumidity,
+		   Integer highestHumidity,
+		   String humidityUnit) {
+	this.vehicleType = vehicleType;
+	this.vehicleModel = vehicleModel;
+	this.vehicleCapacity = vehicleCapacity;
+	this.capacityUnit = unit;
+	this.areaCoverage = areaCoverage;
+	this.coverageUnit = coverageUnit;
+	this.lowestTemp = lowestTemp;
+	this.highestTemp = highestTemp;
+	this.tempUnit = tempUnit;
+	this.lowestHumidity = lowestHumidity;
+	this.highestHumidity = highestHumidity;
+	this.humidityUnit = humidityUnit;
+    }
+
+
     public Tech getTech() {
 	return tech;
     }

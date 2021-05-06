@@ -43,6 +43,16 @@ public class Tech {
 	this.humidityMaintainingTech = humidityMaintainingTech;
     }
 
+    public Tech(String temperatureMonitoringTech,
+		String humidityMonitoringTech,
+		String tempMaintainingTech,
+		String humidityMaintainingTech) {
+	this.temperatureMonitoringTech = temperatureMonitoringTech;
+	this.humidityMonitoringTech = humidityMonitoringTech;
+	this.tempMaintainingTech = tempMaintainingTech;
+	this.humidityMaintainingTech = humidityMaintainingTech;
+    }
+
     @NonNull
     public Long getTechId() {
 	return techId;
@@ -90,6 +100,10 @@ public class Tech {
 
     public void setHumidityMaintainingTech(String humidityMaintainingTech) {
 	this.humidityMaintainingTech = humidityMaintainingTech;
+    }
+
+    public void insertVehicle(Vehicle vehicle){
+        vehicles.add(vehicle);
     }
 
     @Override

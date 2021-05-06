@@ -3,6 +3,7 @@ package com.tpss.ThirdPartySupplierSelection.api;
 import com.tpss.ThirdPartySupplierSelection.entity.Route;
 import com.tpss.ThirdPartySupplierSelection.entity.Tech;
 import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
+import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import com.tpss.ThirdPartySupplierSelection.services.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,8 +43,8 @@ public class VehicleController {
     }
 
     @PostMapping(path="/add")
-    public ResponseEntity<?> addVehicle(@Validated @NonNull @RequestBody Vehicle vehicle){
-        vehicleService.addVehicle(vehicle);
+    public ResponseEntity<?> addVehicle(@Validated @NonNull @RequestBody AddVehicleRequest addVehicleRequest){
+        vehicleService.addVehicle(addVehicleRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

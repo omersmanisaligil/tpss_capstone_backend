@@ -17,17 +17,17 @@ public class AddProviderRequest {
 
     String operationArea;
 
-    String productName;
+    String[] productNames;
 
-    Double idealTemp;
+    /*Double idealTemp;
 
     String tempUnit;
 
     Double idealHumidity;
 
-    String humidityUnit;
+    String humidityUnit;*/
 
-    String certName;
+    String[] certNames;
 
     public String getProviderName() {
 	return providerName;
@@ -69,15 +69,15 @@ public class AddProviderRequest {
 	this.operationArea = operationArea;
     }
 
-    public String getProductName() {
-	return productName;
+    public String[] getProductNames() {
+	return productNames;
     }
 
-    public void setProductName(String productName) {
-	this.productName = productName;
+    public void setProductNames(String[] productNames) {
+	this.productNames = productNames;
     }
 
-    public Double getIdealTemp() {
+    /*public Double getIdealTemp() {
 	return idealTemp;
     }
 
@@ -107,13 +107,13 @@ public class AddProviderRequest {
 
     public void setHumidityUnit(String humidityUnit) {
 	this.humidityUnit = humidityUnit;
+    }*/
+
+    public String[] getCertNames() {
+	return certNames;
     }
 
-    public String getCertName() {
-	return certName;
-    }
-
-    public void setCertName(String certName) {
-	this.certName = certName;
+    public void setCertNames(String[] certName) {
+	this.certNames = certNames;
     }
 }
