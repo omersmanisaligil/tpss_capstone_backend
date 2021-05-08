@@ -47,6 +47,8 @@ public class Order {
     public Order(){}
 
     public Order(Long orderId,
+		 Long ownerId,
+		 Long providerId,
 		 Date promisedArrival,
 		 Date actualArrival,
 		 Integer amountOrdered,
@@ -57,6 +59,31 @@ public class Order {
 		 String currency) {
 
 	this.orderId = orderId;
+	this.ownerId = ownerId;
+	this.providerId = providerId;
+	this.promisedArrival = promisedArrival;
+	this.actualArrival = actualArrival;
+	this.amountOrdered = amountOrdered;
+	this.unit = unit;
+	this.amountDelivered = amountDelivered;
+	this.amountLost = amountLost;
+	this.paidAmount = paidAmount;
+	this.currency = currency;
+    }
+
+    public Order(Long ownerId,
+		 Long providerId,
+		 Date promisedArrival,
+		 Date actualArrival,
+		 Integer amountOrdered,
+		 String unit,
+		 Integer amountDelivered,
+		 Integer amountLost,
+		 Integer paidAmount,
+		 String currency) {
+
+	this.ownerId = ownerId;
+	this.providerId = providerId;
 	this.promisedArrival = promisedArrival;
 	this.actualArrival = actualArrival;
 	this.amountOrdered = amountOrdered;
@@ -137,6 +164,40 @@ public class Order {
 
     public void setOrderId(Long orderId) {
 	this.orderId = orderId;
+    }
+
+    @NonNull
+    public Long getOwnerId() {
+	return ownerId;
+    }
+
+    public void setOwnerId(@NonNull Long ownerId) {
+	this.ownerId = ownerId;
+    }
+
+    @NonNull
+    public Long getProviderId() {
+	return providerId;
+    }
+
+    public void setProviderId(@NonNull Long providerId) {
+	this.providerId = providerId;
+    }
+
+    public User getOwner() {
+	return owner;
+    }
+
+    public void setOwner(User owner) {
+	this.owner = owner;
+    }
+
+    public Provider getProvider() {
+	return provider;
+    }
+
+    public void setProvider(Provider provider) {
+	this.provider = provider;
     }
 
     @Override
