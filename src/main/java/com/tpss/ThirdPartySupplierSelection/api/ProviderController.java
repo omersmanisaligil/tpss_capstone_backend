@@ -3,7 +3,6 @@ package com.tpss.ThirdPartySupplierSelection.api;
 import com.tpss.ThirdPartySupplierSelection.entity.Order;
 import com.tpss.ThirdPartySupplierSelection.entity.Product;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
-import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddProviderRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import com.tpss.ThirdPartySupplierSelection.services.ProviderService;
@@ -44,6 +43,22 @@ public class ProviderController {
 	Provider provider = providerService.getOneByID(id).get();
 	Link link = linkTo(ProviderController.class).slash(provider.getProviderId()).withSelfRel();
 	return ResponseEntity.status(HttpStatus.OK).body(provider);
+    }
+
+    @GetMapping(path="/filter")
+    public ResponseEntity<Page<Provider>> getByOperationArea(@RequestParam(name="operationArea") String operationArea,
+							     @RequestParam(name="page", defaultValue="0") int page,
+							     @RequestParam(name="size", defaultValue="3") int size){
+	Page<Provider> providersOfArea = providerService.getByOperationArea(operationArea,page,size);
+        return ResponseEntity.status(HttpStatus.OK).body(providersOfArea);
+    }
+
+    @GetMapping(path="/search/")
+    public ResponseEntity<Page<Provider>> SearchByProviderName(@RequestParam(name="providerName") String providerName,
+							       @RequestParam(name="page", defaultValue="0") int page,
+							       @RequestParam(name="size", defaultValue = "3") int size){
+        Page<Provider> providersWithName = providerService.searchByName(page,size,providerName);
+        return ResponseEntity.status(HttpStatus.OK).body(providersWithName);
     }
 
     @PostMapping(path="/add")

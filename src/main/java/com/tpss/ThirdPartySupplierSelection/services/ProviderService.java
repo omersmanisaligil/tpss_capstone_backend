@@ -32,7 +32,7 @@ public class ProviderService extends GenericService{
 
     public Page<Provider> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
-        Page<Provider> providers= providerDAO.findAll(pageRequest);
+        Page<Provider> providers = providerDAO.findAll(pageRequest);
 
         return providers;
     }
@@ -41,6 +41,20 @@ public class ProviderService extends GenericService{
         Optional<Provider> provider = providerDAO.findById(id);
 
         return provider;
+    }
+
+    public Page<Provider> getByOperationArea(String operationArea, int page, int size){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Provider> providersOfArea = providerDAO.findByOperationArea(operationArea,pageable);
+
+        return providersOfArea;
+    }
+
+    public Page<Provider> searchByName(int page, int size, String name){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Provider> providers = providerDAO.searchByProviderName(name,pageable);
+
+        return providers;
     }
 
     public Provider updateProvider(Provider provider, Long id){

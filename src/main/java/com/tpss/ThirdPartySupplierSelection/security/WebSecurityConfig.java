@@ -16,10 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
@@ -55,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //TODO cors and csrf handling
         http.
          csrf().disable()
         .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
@@ -64,13 +61,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests().antMatchers("/","/home","/auth/**").permitAll()
         .antMatchers(HttpMethod.GET, "/certificates/*", "/orders/*","/products/*",
-                    "/providers/*","/routes/*","/tech/*","/topsis/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_READ.getPermission())
+                    "/providers/*","/routes/*","/tech/*","/topsis/*","/waspas/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_READ.getPermission())
         .antMatchers(HttpMethod.DELETE, "/certificates/*", "/orders/*","/products/*",
-                    "/providers/*","/routes/*","/tech/*","/topsis/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_WRITE.getPermission())
+                    "/providers/*","/routes/*","/tech/*","/topsis/*","/waspas/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_WRITE.getPermission())
         .antMatchers(HttpMethod.POST, "/certificates/*", "/orders/*","/products/*",
-                    "/providers/*","/routes/*","/tech/*","/topsis/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_WRITE.getPermission())
+                    "/providers/*","/routes/*","/tech/*","/topsis/*","/waspas/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_WRITE.getPermission())
         .antMatchers(HttpMethod.PUT, "/certificates/*", "/orders/*","/products/*",
-                    "/providers/*","/routes/*","/tech/*","/topsis/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_WRITE.getPermission())
+                    "/providers/*","/routes/*","/tech/*","/topsis/*","/waspas/*","/vehicles/*").hasAuthority(EPermission.PERSONNEL_WRITE.getPermission())
         .antMatchers(HttpMethod.GET, "/users/*").hasAuthority((EPermission.USER_READ.getPermission()))
         .antMatchers(HttpMethod.DELETE, "/users/*").hasAuthority(EPermission.USER_WRITE.getPermission())
         .antMatchers(HttpMethod.POST,"/users/*").hasAuthority(EPermission.USER_WRITE.toString())

@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
+
 import java.util.Optional;
 
 @Service
@@ -34,6 +34,13 @@ public class ProductService {
         Optional<Product> product = productDAO.findByProductName(productName);
 
         return product;
+    }
+
+    public Page<Product> searchByName(int page, int size, String name){
+        Pageable pageable = PageRequest.of(page,size);
+        Page<Product> products = productDAO.searchByProductName(name,pageable);
+
+        return products;
     }
 
     public boolean existsByProductName(String productName){

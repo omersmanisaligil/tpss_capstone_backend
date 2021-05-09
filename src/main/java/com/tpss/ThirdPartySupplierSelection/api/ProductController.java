@@ -35,6 +35,14 @@ public class ProductController {
 	return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
+    @GetMapping(path="/search/")
+    public ResponseEntity<Page<Product>> searchByName(@RequestParam(name="productName") String productName,
+    						      @RequestParam(name="page", defaultValue = "0") int page,
+						      @RequestParam(name="size", defaultValue = "3") int size){
+        Page<Product> products = productService.searchByName(page,size,productName);
+        return ResponseEntity.status(HttpStatus.OK).body(products);
+    }
+
     @PostMapping(path="/add")
     public ResponseEntity<?> addProduct(@Validated @NonNull @RequestBody Product product){
 	productService.addProduct(product);
