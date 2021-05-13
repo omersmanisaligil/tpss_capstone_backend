@@ -20,10 +20,10 @@ public class MCDMController {
     MCDMService mcdmService;
 
     @PostMapping("/filter")
-    public ResponseEntity<List<Provider>> filterProviders(@RequestParam(name="page", defaultValue="0") int page,
+    public ResponseEntity<Page<Provider>> filterProviders(@RequestParam(name="page", defaultValue="0") int page,
                                                           @RequestParam(name="size", defaultValue = "3") int size,
                                                           @RequestBody ProviderFilterRequest providerFilterRequest){
-        List<Provider> providers = mcdmService.filterProviders(providerFilterRequest,page,size);
+        Page<Provider> providers = mcdmService.filterProviders(providerFilterRequest,page,size);
         return ResponseEntity.status(HttpStatus.OK).body(providers);
     }
 

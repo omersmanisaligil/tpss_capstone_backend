@@ -29,6 +29,7 @@ public class Product {
     String humidityUnit;
 
     @ManyToMany(mappedBy="products", cascade=CascadeType.PERSIST)
+    @JsonIgnore
     private Set<Provider> providers = new HashSet<Provider>();
 
     public Product(){}

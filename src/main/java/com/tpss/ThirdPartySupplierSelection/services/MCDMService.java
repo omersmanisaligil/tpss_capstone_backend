@@ -9,6 +9,7 @@ import com.tpss.ThirdPartySupplierSelection.payload.request.ProviderFilterReques
 import com.tpss.ThirdPartySupplierSelection.payload.request.ProviderOrderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class MCDMService {
     @Autowired
     ProviderDAOImpl providerDAOImpl;
 
-    public List<Provider> filterProviders(ProviderFilterRequest providerFilterRequest, int page, int size){
+    public Page<Provider> filterProviders(ProviderFilterRequest providerFilterRequest, int page, int size){
         Pageable pageRequest = PageRequest.of(page,size);
         //TODO from json to hashmap
         HashMap<String, Object> filters = new HashMap<>();
@@ -39,7 +40,8 @@ public class MCDMService {
         filters.put("certs",providerFilterRequest.getCerts());
 
         List<Provider> filteredProviders = providerDAOImpl.filterData(filters);
-        return filteredProviders;
+        PageImpl<Provider> filteredProvidersPage = new PageImpl<Provider>(filteredProviders,pageRequest, filteredProviders.size());
+        return filteredProvidersPage;
     }
 
     public Page<Provider> applyTOPSIS(ProviderOrderRequest providerOrderRequest, int page, int size){

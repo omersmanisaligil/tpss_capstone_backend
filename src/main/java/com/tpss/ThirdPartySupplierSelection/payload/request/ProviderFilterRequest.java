@@ -1,8 +1,5 @@
 package com.tpss.ThirdPartySupplierSelection.payload.request;
 
-import org.springframework.lang.NonNull;
-
-import java.util.HashMap;
 import java.util.List;
 
 public class ProviderFilterRequest {
@@ -11,12 +8,12 @@ public class ProviderFilterRequest {
     private List<String> certs;
     private String operationArea;
 
-    @NonNull
+
     public String getProductName() {
 	return productName;
     }
 
-    public void setProductName(@NonNull String productName) {
+    public void setProductName(String productName) {
 	this.productName = productName;
     }
 

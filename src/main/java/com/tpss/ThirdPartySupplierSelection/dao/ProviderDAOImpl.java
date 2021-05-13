@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Repository
@@ -16,8 +14,7 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
     EntityManager entityManager;
 
     private final String queryPt1 = "SELECT provider.provider_id,provider_name,provider_desc,foundation_year," +
-    "operation_area, number_of_orders," +
-    "product_id, product_name, temp_ideal, temp_unit, humidity_ideal, humidity_unit" +
+    "operation_area, number_of_orders" +
     " FROM PROVIDER provider";
     private final String queryPt2 = " (SELECT pr.PRODUCT_ID,pr.PRODUCT_NAME,pr.TEMP_IDEAL,pr.temp_unit,pr.humidity_ideal,pr.humidity_unit, pm.provider_id" +
     " FROM PRODUCT pr" +
@@ -41,22 +38,7 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
 	String operationArea = (String)filters.get("operationArea");
 	List<String> certs = (List<String>)filters.get("certs");
 	ArrayList<Object> params = new ArrayList<>();
-        /*SELECT provider.provider_id, provider_name, provider_desc, foundation_year, operation_area, number_of_orders, product_id, product_name, temp_ideal, temp_unit, humidity_ideal, humidity_unit
-	FROM PROVIDER provider
-	INNER JOIN
-	(SELECT pr.PRODUCT_ID,pr.PRODUCT_NAME,pr.TEMP_IDEAL,pr.temp_unit,pr.humidity_ideal,pr.humidity_unit, pm.provider_id
-	 	FROM PRODUCT pr
-	 		INNER JOIN PROVIDER_PRODUCT_MAP pm ON pr.PRODUCT_ID=pm.PRODUCT_ID
-	 	WHERE pr.product_name='elma') pd ON provider.provider_id=pd.provider_id
-	INNER JOIN
-	(SELECT pc.provider_id
-	 	FROM CERTIFICATE cr
-	 		INNER JOIN CERT_PROVIDER_MAP pc ON cr.CERT_ID=pc.CERT_ID
-	 	WHERE cert_name in ('ISO111','ISO9320')
-	 		group by pc.provider_id having count(*)=2) cp on
-	cp.provider_id = provider.provider_id
 
-	WHERE provider.operation_area='İstanbul'*/
 	int certCount = ((List<String>)filters.get("certs")).size();
 	StringBuilder sb = new StringBuilder(queryPt1);
 
@@ -84,13 +66,13 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
 	    params.add(operationArea);
 	}
 
-	Query q = entityManager.createNativeQuery(sb.toString());
+	Query q = entityManager.createNativeQuery(sb.toString(), Provider.class);
 
 	for(int i = 0; i<params.size();i++){
 	   q.setParameter(i+1, params.get(i));
 	}
 
-	List result = q.getResultList();
+	List<Provider> result = q.getResultList();
 	return result;
     }
 
