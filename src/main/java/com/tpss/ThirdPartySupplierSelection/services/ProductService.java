@@ -64,8 +64,12 @@ public class ProductService {
         productDAO.deleteById(id);
     }
 
-    public void addProduct(Product product){
-        product.setProductName(product.getProductName().toUpperCase());
-        productDAO.save(product);
+    public boolean addProduct(Product product){
+        if(!existsByProductName(product.getProductName())){
+            product.setProductName(product.getProductName().toUpperCase());
+            productDAO.save(product);
+            return true;
+        }
+        return false;
     }
 }

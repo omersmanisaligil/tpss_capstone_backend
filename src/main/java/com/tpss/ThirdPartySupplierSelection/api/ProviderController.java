@@ -1,13 +1,17 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
+import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
+import com.tpss.ThirdPartySupplierSelection.entity.Certificate;
 import com.tpss.ThirdPartySupplierSelection.entity.Order;
 import com.tpss.ThirdPartySupplierSelection.entity.Product;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddProviderRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
+import com.tpss.ThirdPartySupplierSelection.payload.response.MessageResponse;
 import com.tpss.ThirdPartySupplierSelection.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,35 +33,35 @@ public class ProviderController {
     }
 
     @GetMapping(path="")
-    public ResponseEntity<Page<Provider>> getAll(
+    public ResponseEntity<PageImpl<ProviderDTO>> getAll(
     @RequestParam(name="page", defaultValue = "0") int page,
     @RequestParam(name="size", defaultValue = "3") int size
     //,@RequestParam(name="sort", defaultValue = "id") String[] sort
     ){
-	Page<Provider> allProviders = providerService.getAll(page,size);
+	PageImpl<ProviderDTO> allProviders = providerService.getAll(page,size);
 	return ResponseEntity.status(HttpStatus.OK).body(allProviders);
     }
 
     @GetMapping(path="{id}")
-    public ResponseEntity<Provider> getOneByID(@PathVariable("id") Long id){
-	Provider provider = providerService.getOneByID(id).get();
+    public ResponseEntity<ProviderDTO> getOneByID(@PathVariable("id") Long id){
+	ProviderDTO provider = providerService.getOneByID(id);
 	Link link = linkTo(ProviderController.class).slash(provider.getProviderId()).withSelfRel();
 	return ResponseEntity.status(HttpStatus.OK).body(provider);
     }
 
     @GetMapping(path="/filter")
-    public ResponseEntity<Page<Provider>> getByOperationArea(@RequestParam(name="operationArea") String operationArea,
+    public ResponseEntity<PageImpl<ProviderDTO>> getByOperationArea(@RequestParam(name="operationArea") String operationArea,
 							     @RequestParam(name="page", defaultValue="0") int page,
 							     @RequestParam(name="size", defaultValue="3") int size){
-	Page<Provider> providersOfArea = providerService.getByOperationArea(operationArea,page,size);
+	PageImpl<ProviderDTO> providersOfArea = providerService.getByOperationArea(operationArea,page,size);
         return ResponseEntity.status(HttpStatus.OK).body(providersOfArea);
     }
 
     @GetMapping(path="/search/")
-    public ResponseEntity<Page<Provider>> SearchByProviderName(@RequestParam(name="providerName") String providerName,
-							       @RequestParam(name="page", defaultValue="0") int page,
-							       @RequestParam(name="size", defaultValue = "3") int size){
-        Page<Provider> providersWithName = providerService.searchByName(page,size,providerName);
+    public ResponseEntity<PageImpl<ProviderDTO>> SearchByProviderName(@RequestParam(name="providerName") String providerName,
+								   @RequestParam(name="page", defaultValue="0") int page,
+								   @RequestParam(name="size", defaultValue = "3") int size){
+        PageImpl<ProviderDTO> providersWithName = providerService.searchByName(page,size,providerName);
         return ResponseEntity.status(HttpStatus.OK).body(providersWithName);
     }
 
@@ -73,6 +77,24 @@ public class ProviderController {
 	return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PostMapping(path="{id}/insertCert")
+    public ResponseEntity<?> insertCert(@Validated @NonNull @RequestBody Certificate cert,
+    					@PathVariable("id") Long providerID){
+  	boolean certExist = providerService.insertCert(cert,providerID);
+        HttpStatus status;
+        MessageResponse msg = new MessageResponse();
+
+        if(certExist){
+            status = HttpStatus.OK;
+            msg.setMessage("Certificate added to the provider");
+	}
+        else{
+            status = HttpStatus.CONFLICT;
+            msg.setMessage("Certificate does not exist in the database, please define it first");
+	}
+        return ResponseEntity.status(status).body(msg);
+    }
+
     @PostMapping(path="{id}/insertVehicle")
     public ResponseEntity<?> insertVehicle(@Validated @NonNull @RequestBody AddVehicleRequest addVehicleRequest,
 					   @PathVariable("id") Long providerID){
@@ -83,9 +105,18 @@ public class ProviderController {
     @PostMapping(path="{id}/insertProduct")
     public ResponseEntity<?> insertProduct(@Validated @NonNull @RequestBody Product product,
     					   @PathVariable("id") Long id){
-        providerService.insertProduct(product,id);
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+        boolean productExists = providerService.insertProduct(product,id);
+	MessageResponse msg = new MessageResponse();
+	HttpStatus status;
+        if(productExists){
+            msg.setMessage("Product added to the provider's catalog");
+            status = HttpStatus.OK;
+        }
+        else{
+            msg.setMessage("Product did not exist, it's created and inserted to the provider's catalog");
+            status = HttpStatus.CREATED;
+        }
+        return ResponseEntity.status(status).body(msg);
     }
 
     @PutMapping(path="/edit/{id}")

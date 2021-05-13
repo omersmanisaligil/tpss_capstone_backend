@@ -22,17 +22,9 @@ public class Provider {
     String providerDesc;
     @NonNull @Column(name="foundation_year")
     Integer foundationYear;
-    @NonNull @Column(name="number_of_orders")
-    Integer numberOfOrders;
     @NonNull @Column(name="operation_area")
     String operationArea;
-    /*TODO bu üçünü entity değil DTO classlarına dahil edebilirim veya bir query/relation mantığıyla da buraya çekebilirm*/
-    @Transient
-    String reliabilityPercentage;
-    @Transient
-    Integer totalVehicleCount;
-    @Transient
-    Integer greenPercentage;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -60,46 +52,22 @@ public class Provider {
 		    String providerName,
 		    String providerDesc,
 		    Integer foundationYear,
-		    Integer numberOfOrders,
 		    String operationArea) {
 	this.providerId = providerId;
 	this.providerName = providerName;
 	this.providerDesc = providerDesc;
 	this.foundationYear = foundationYear;
-	this.numberOfOrders = numberOfOrders;
 	this.operationArea = operationArea;
     }
 
     public Provider(String providerName,
 		    String providerDesc,
 		    Integer foundationYear,
-		    Integer numberOfOrders,
 		    String operationArea) {
 	this.providerName = providerName;
 	this.providerDesc = providerDesc;
 	this.foundationYear = foundationYear;
-	this.numberOfOrders = numberOfOrders;
 	this.operationArea = operationArea;
-    }
-
-    public Provider(Long providerId,
-		    String providerName,
-		    String providerDesc,
-		    Integer foundationYear,
-		    Integer numberOfOrders,
-		    String operationArea,
-		    String reliabilityPercentage,
-		    Integer totalVehicleCount,
-		    Integer greenPercentage) {
-	this.providerId = providerId;
-	this.providerName = providerName;
-	this.providerDesc = providerDesc;
-	this.foundationYear = foundationYear;
-	this.numberOfOrders = numberOfOrders;
-	this.operationArea = operationArea;
-	this.reliabilityPercentage = reliabilityPercentage;
-	this.totalVehicleCount = totalVehicleCount;
-	this.greenPercentage = greenPercentage;
     }
 
     public Long getProviderId() {
@@ -134,44 +102,29 @@ public class Provider {
 	this.foundationYear = foundationYear;
     }
 
-    public Integer getNumberOfOrders() {
-	return numberOfOrders;
-    }
-
-    public void setNumberOfOrders(Integer numberOfOrders) {
-	this.numberOfOrders = numberOfOrders;
-    }
-
+    @NonNull
     public String getOperationArea() {
 	return operationArea;
     }
 
-    public void setOperationArea(String operationArea) {
+    public void setOperationArea(@NonNull String operationArea) {
 	this.operationArea = operationArea;
     }
 
-    public String getReliabilityPercentage() {
-	return reliabilityPercentage;
+    public Set<Order> getOrders() {
+	return orders;
     }
 
-    public void setReliabilityPercentage(String reliabilityPercentage) {
-	this.reliabilityPercentage = reliabilityPercentage;
+    public void setOrders(Set<Order> orders) {
+	this.orders = orders;
     }
 
-    public Integer getTotalVehicleCount() {
-	return totalVehicleCount;
+    public Set<Vehicle> getVehicles() {
+	return vehicles;
     }
 
-    public void setTotalVehicleCount(Integer totalVehicleCount) {
-	this.totalVehicleCount = totalVehicleCount;
-    }
-
-    public Integer getGreenPercentage() {
-	return greenPercentage;
-    }
-
-    public void setGreenVehicleCount(Integer greenPercentage) {
-	this.greenPercentage = greenPercentage;
+    public void setVehicles(Set<Vehicle> vehicles) {
+	this.vehicles = vehicles;
     }
 
     public Set<Product> getProducts() {
@@ -194,7 +147,7 @@ public class Provider {
         this.products.add(product);
     }
 
-    public void insertCertificates(Certificate certificate){
+    public void insertCertificate(Certificate certificate){
         this.certificates.add(certificate);
     }
 
@@ -213,11 +166,7 @@ public class Provider {
 	", providerName='" + providerName + '\'' +
 	", providerDesc='" + providerDesc + '\'' +
 	", foundationYear=" + foundationYear +
-	", numberOfOrders=" + numberOfOrders +
 	", operationArea='" + operationArea + '\'' +
-	", reliabilityPercentage='" + reliabilityPercentage + '\'' +
-	", totalVehicleCount=" + totalVehicleCount +
-	", greenVehicleCount=" + greenPercentage +
 	'}';
     }
 }

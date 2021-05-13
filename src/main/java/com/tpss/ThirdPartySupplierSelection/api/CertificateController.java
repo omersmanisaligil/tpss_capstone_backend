@@ -1,6 +1,7 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
 import com.tpss.ThirdPartySupplierSelection.entity.Certificate;
+import com.tpss.ThirdPartySupplierSelection.payload.response.MessageResponse;
 import com.tpss.ThirdPartySupplierSelection.services.CertificateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,8 +40,19 @@ public class CertificateController {
 
     @PostMapping(path="/add")
     public ResponseEntity<?> addCertificate(@Validated @NonNull @RequestBody Certificate certificate){
-	certificateService.addCertificate(certificate);
-	return ResponseEntity.status(HttpStatus.OK).build();
+	boolean certExists = certificateService.addCertificate(certificate);
+
+	HttpStatus status;
+	MessageResponse msg = new MessageResponse();
+	if(certExists){
+	    status = HttpStatus.CONFLICT;
+	    msg.setMessage("Certificate with name " + certificate.getCertName() + "already exists");
+	}
+	else{
+	    status = HttpStatus.CREATED;
+	    msg.setMessage("Certificate created successfully");
+	}
+	return ResponseEntity.status(status).body(msg);
     }
 
     @PutMapping(path="/edit/{id}")

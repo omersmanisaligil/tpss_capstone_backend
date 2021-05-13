@@ -1,11 +1,14 @@
 package com.tpss.ThirdPartySupplierSelection.payload.response;
 
+
 public class MessageResponse {
     private String message;
 
     public MessageResponse(String message) {
-	super();
 	this.message = message;
+    }
+
+    public MessageResponse(){
     }
 
     public String getMessage() {

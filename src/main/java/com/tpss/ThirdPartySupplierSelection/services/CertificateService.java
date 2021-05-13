@@ -57,8 +57,12 @@ public class CertificateService extends GenericService{
 	certificateDAO.deleteById(id);
     }
 
-    public void addCertificate(Certificate certificate){
-	certificate.setCertName(certificate.getCertName().toUpperCase());
-        certificateDAO.save(certificate);
+    public boolean addCertificate(Certificate certificate) {
+	boolean certExists = certificateDAO.existsByCertName(certificate.getCertName());
+	if (!certExists){
+	    certificate.setCertName(certificate.getCertName().toUpperCase());
+	    certificateDAO.save(certificate);
+    	}
+        return certExists;
     }
 }

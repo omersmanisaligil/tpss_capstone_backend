@@ -16,13 +16,11 @@ import java.util.Optional;
 public interface ProviderDAO extends JpaRepository<Provider,Long>, ProviderDAOCustom {
     Optional<Provider> findById(Long id);
 
-    Page<Provider> findByOperationArea(String operationArea,Pageable pageable);
-
     List<Provider> findByOperationArea(String operationArea);
 
     @Query(value = "SELECT p from Provider p WHERE p.providerName LIKE %:providerName%")
-    Page<Provider> searchByProviderName(@Param("providerName") String providerName, Pageable pageable);
+    List<Provider> searchByProviderName(@Param("providerName") String providerName);
 
     @Override
-    Page<Provider> findAll(Pageable pageable);
+    List<Provider> findAll();
 }

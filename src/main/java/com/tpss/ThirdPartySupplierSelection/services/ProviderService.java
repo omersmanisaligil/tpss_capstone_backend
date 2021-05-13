@@ -1,16 +1,19 @@
 package com.tpss.ThirdPartySupplierSelection.services;
 
 import com.tpss.ThirdPartySupplierSelection.dao.ProviderDAO;
+import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
+import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.*;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddProviderRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProviderService extends GenericService{
@@ -30,31 +33,48 @@ public class ProviderService extends GenericService{
     @Autowired
     ProductService productService;
 
-    public Page<Provider> getAll(int page, int size){
+    public PageImpl<ProviderDTO> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
-        Page<Provider> providers = providerDAO.findAll(pageRequest);
+        List<Provider> providers = providerDAO.findAll();
 
-        return providers;
+        List<ProviderDTO> providerDTOList = DTOMapper.toProviderDTOList(providers);
+
+        PageImpl<ProviderDTO> providerDTOPage = new PageImpl<ProviderDTO>(providerDTOList,pageRequest,providerDTOList.size());
+        return providerDTOPage;
     }
 
-    public Optional<Provider> getOneByID(Long id){
-        Optional<Provider> provider = providerDAO.findById(id);
+    public ProviderDTO getOneByID(Long id){
+        Provider provider = providerDAO.findById(id).get();
+        ProviderDTO providerDTO = null;
 
-        return provider;
+        if(provider!=null)
+             providerDTO = DTOMapper.toProviderDTO(provider);
+
+        return providerDTO;
     }
 
-    public Page<Provider> getByOperationArea(String operationArea, int page, int size){
+    public PageImpl<ProviderDTO> getByOperationArea(String operationArea, int page, int size){
         Pageable pageable = PageRequest.of(page,size);
-        Page<Provider> providersOfArea = providerDAO.findByOperationArea(operationArea,pageable);
+        List<ProviderDTO> providerDTOList = new ArrayList<>();
+        List<Provider> providersOfArea = providerDAO.findByOperationArea(operationArea);
 
-        return providersOfArea;
+        providerDTOList = DTOMapper.toProviderDTOList(providersOfArea);
+
+        PageImpl<ProviderDTO> providerDTOPage = new PageImpl<ProviderDTO>(providerDTOList,pageable,providerDTOList.size());
+
+        return providerDTOPage;
     }
 
-    public Page<Provider> searchByName(int page, int size, String name){
+    public PageImpl<ProviderDTO> searchByName(int page, int size, String name){
         Pageable pageable = PageRequest.of(page,size);
-        Page<Provider> providers = providerDAO.searchByProviderName(name,pageable);
+        List<ProviderDTO> providerDTOList = new ArrayList<>();
+        List<Provider> providerList = providerDAO.searchByProviderName(name);
 
-        return providers;
+        providerDTOList = DTOMapper.toProviderDTOList(providerList);
+
+        PageImpl<ProviderDTO> providerDTOPage = new PageImpl<ProviderDTO>(providerDTOList,pageable, providerDTOList.size());
+
+        return providerDTOPage;
     }
 
     public Provider updateProvider(Provider provider, Long id){
@@ -81,7 +101,6 @@ public class ProviderService extends GenericService{
         addProviderRequest.getProviderName(),
         addProviderRequest.getProviderDesc(),
         addProviderRequest.getFoundationYear(),
-        addProviderRequest.getNumberOfOrders(),
         addProviderRequest.getOperationArea()
         );
 
@@ -90,7 +109,7 @@ public class ProviderService extends GenericService{
                 if(certificateService.existsByCertName(certName.toUpperCase())) {
                     Certificate cert = certificateService.getOneByCertName(certName).get();
 
-                    provider.insertCertificates(cert);
+                    provider.insertCertificate(cert);
                 }
                 else{
                     responseMessage += " certificate " + certName +  " not recognized, it does not exist in the database\n" +
@@ -130,9 +149,21 @@ public class ProviderService extends GenericService{
         provider.insertVehicle(vehicle);
     }
 
-    public void insertProduct(Product product, Long providerID){
+    public boolean insertProduct(Product product, Long providerID){
         Provider provider = providerDAO.getOne(providerID);
-
+        boolean productExists = productService.addProduct(product);
         provider.insertProduct(product);
+        return productExists;
     }
+
+    public boolean insertCert(Certificate cert, Long providerID){
+        Provider provider = providerDAO.getOne(providerID);
+        boolean certExists = certificateService.existsByCertName(cert.getCertName());
+
+        if(certExists)
+            provider.insertCertificate(cert);
+
+        return certExists;
+    }
+
 }

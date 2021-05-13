@@ -1,6 +1,7 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
 import com.tpss.ThirdPartySupplierSelection.entity.Product;
+import com.tpss.ThirdPartySupplierSelection.payload.response.MessageResponse;
 import com.tpss.ThirdPartySupplierSelection.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,8 +46,12 @@ public class ProductController {
 
     @PostMapping(path="/add")
     public ResponseEntity<?> addProduct(@Validated @NonNull @RequestBody Product product){
-	productService.addProduct(product);
-	return ResponseEntity.status(HttpStatus.OK).build();
+	boolean doesExist = productService.addProduct(product);
+	if(!doesExist)
+	    return ResponseEntity.status(HttpStatus.CREATED).build();
+	else
+	    return  ResponseEntity.status(HttpStatus.CONFLICT)
+	    	.body(new MessageResponse("Product with name " + product.getProductName() + " already exists"));
     }
 
     @PutMapping(path="/edit/{id}")
