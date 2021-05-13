@@ -10,6 +10,7 @@ import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.response.MessageResponse;
 import com.tpss.ThirdPartySupplierSelection.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.hateoas.Link;
@@ -33,12 +34,12 @@ public class ProviderController {
     }
 
     @GetMapping(path="")
-    public ResponseEntity<PageImpl<ProviderDTO>> getAll(
+    public ResponseEntity<Page<ProviderDTO>> getAll(
     @RequestParam(name="page", defaultValue = "0") int page,
     @RequestParam(name="size", defaultValue = "3") int size
     //,@RequestParam(name="sort", defaultValue = "id") String[] sort
     ){
-	PageImpl<ProviderDTO> allProviders = providerService.getAll(page,size);
+	Page<ProviderDTO> allProviders = providerService.getAll(page,size);
 	return ResponseEntity.status(HttpStatus.OK).body(allProviders);
     }
 
