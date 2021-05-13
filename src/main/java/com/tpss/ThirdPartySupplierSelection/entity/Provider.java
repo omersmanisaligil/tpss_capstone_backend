@@ -32,7 +32,7 @@ public class Provider {
     @Transient
     Integer totalVehicleCount;
     @Transient
-    Integer greenVehicleCount;
+    Integer greenPercentage;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -90,7 +90,7 @@ public class Provider {
 		    String operationArea,
 		    String reliabilityPercentage,
 		    Integer totalVehicleCount,
-		    Integer greenVehicleCount) {
+		    Integer greenPercentage) {
 	this.providerId = providerId;
 	this.providerName = providerName;
 	this.providerDesc = providerDesc;
@@ -99,7 +99,7 @@ public class Provider {
 	this.operationArea = operationArea;
 	this.reliabilityPercentage = reliabilityPercentage;
 	this.totalVehicleCount = totalVehicleCount;
-	this.greenVehicleCount = greenVehicleCount;
+	this.greenPercentage = greenPercentage;
     }
 
     public Long getProviderId() {
@@ -166,12 +166,12 @@ public class Provider {
 	this.totalVehicleCount = totalVehicleCount;
     }
 
-    public Integer getGreenVehicleCount() {
-	return greenVehicleCount;
+    public Integer getGreenPercentage() {
+	return greenPercentage;
     }
 
-    public void setGreenVehicleCount(Integer greenVehicleCount) {
-	this.greenVehicleCount = greenVehicleCount;
+    public void setGreenVehicleCount(Integer greenPercentage) {
+	this.greenPercentage = greenPercentage;
     }
 
     public Set<Product> getProducts() {
@@ -217,7 +217,7 @@ public class Provider {
 	", operationArea='" + operationArea + '\'' +
 	", reliabilityPercentage='" + reliabilityPercentage + '\'' +
 	", totalVehicleCount=" + totalVehicleCount +
-	", greenVehicleCount=" + greenVehicleCount +
+	", greenVehicleCount=" + greenPercentage +
 	'}';
     }
 }

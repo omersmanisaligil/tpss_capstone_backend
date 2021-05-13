@@ -121,4 +121,12 @@ public class Product {
     public void insertProvider(Provider provider){
         this.providers.add(provider);
     }
+
+    public Set<Provider> getProviders() {
+	return providers;
+    }
+
+    public void setProviders(Set<Provider> providers) {
+	this.providers = providers;
+    }
 }
