@@ -33,6 +33,8 @@ public class Order {
     private Integer paidAmount;
     @NonNull @Column(name="currency")
     private String currency;
+    @NonNull @Column(name="state")
+    private String state;
 
     @ManyToOne
     @JoinColumn(name="owner_id", referencedColumnName = "user_id", insertable = false, updatable = false)
@@ -164,6 +166,15 @@ public class Order {
 
     public void setOrderId(Long orderId) {
 	this.orderId = orderId;
+    }
+
+    @NonNull
+    public String getState() {
+	return state;
+    }
+
+    public void setState(@NonNull String state) {
+	this.state = state;
     }
 
     @NonNull

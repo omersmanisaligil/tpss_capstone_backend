@@ -18,7 +18,6 @@ public class Product {
     Long productId;
     @NonNull @Column(name="product_name")
     String productName;
-    //TODO: bu ideal temp ve humidity bir aralık olabilir bunu hesaba katmalıyız
     @NonNull @Column(name="temp_ideal")
     Double idealTemp;
     @NonNull @Column(name="temp_unit")

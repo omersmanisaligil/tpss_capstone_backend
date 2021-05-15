@@ -1,6 +1,5 @@
 package com.tpss.ThirdPartySupplierSelection.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;

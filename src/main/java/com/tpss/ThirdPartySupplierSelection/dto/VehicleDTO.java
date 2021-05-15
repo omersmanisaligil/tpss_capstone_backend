@@ -1,80 +1,50 @@
-package com.tpss.ThirdPartySupplierSelection.entity;
+package com.tpss.ThirdPartySupplierSelection.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.lang.NonNull;
+import com.tpss.ThirdPartySupplierSelection.entity.Provider;
+import com.tpss.ThirdPartySupplierSelection.entity.Route;
+import com.tpss.ThirdPartySupplierSelection.entity.Tech;
 
-import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@Entity
-@Table(name="VEHICLE")
-public class Vehicle {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="vehicle_id")
+public class VehicleDTO {
+
     private Long vehicleId;
-    @NonNull @Column(name="provider_id")
     private Long providerID;
-    @Column(name="vehicle_type")
     private String vehicleType;
-    @Column(name="vehicle_model")
     private String vehicleModel;
-    @Column(name="vehicle_capacity")
     private Integer vehicleCapacity;
-    @Column(name="capacity_unit")
     private String capacityUnit;
-    @Column(name="area_coverage")
     private Integer areaCoverage;
-    @Column(name="coverage_unit")
     private String coverageUnit;
-    @Column(name="temperature_lowest")
     private Integer lowestTemp;
-    @Column(name="temperature_highest")
     private Integer highestTemp;
-    @Column(name="temperature_unit")
     private String tempUnit;
-    @Column(name="humidity_lowest")
     private Integer lowestHumidity;
-    @Column(name="humidity_highest")
     private Integer highestHumidity;
-    @Column(name="humidity_unit")
     private String humidityUnit;
 
-    @ManyToOne
-    @JoinColumn(name="tech_id", referencedColumnName="tech_id", insertable=false, updatable=false)
-    @JsonIgnore
     private Tech tech;
 
-    @OneToMany(mappedBy = "vehicle", orphanRemoval = true, cascade=CascadeType.PERSIST )
-    @JsonIgnore
     private Set<Route> routes = new HashSet<Route>();
 
-    @ManyToOne
-    @JoinColumn(name="provider_id", referencedColumnName="provider_id", insertable = false, updatable = false)
-    @JsonIgnore
     private Provider provider;
 
-    public Vehicle(){}
+    public VehicleDTO() { }
 
-    public Vehicle(Long vehicleId,
-		   String vehicleType,
-		   String vehicleModel,
-		   Integer vehicleCapacity,
-		   String unit,
-		   Integer areaCoverage,
-		   String coverageUnit,
-		   Integer lowestTemp,
-		   Integer highestTemp,
-		   String tempUnit,
-		   Integer lowestHumidity,
-		   Integer highestHumidity,
-		   String humidityUnit) {
+    public VehicleDTO(Long vehicleId, Long providerID, String vehicleType,
+		      String vehicleModel, Integer vehicleCapacity,
+		      String capacityUnit, Integer areaCoverage,
+		      String coverageUnit, Integer lowestTemp,
+		      Integer highestTemp, String tempUnit,
+		      Integer lowestHumidity, Integer highestHumidity,
+		      String humidityUnit) {
 	this.vehicleId = vehicleId;
+	this.providerID = providerID;
 	this.vehicleType = vehicleType;
 	this.vehicleModel = vehicleModel;
 	this.vehicleCapacity = vehicleCapacity;
-	this.capacityUnit = unit;
+	this.capacityUnit = capacityUnit;
 	this.areaCoverage = areaCoverage;
 	this.coverageUnit = coverageUnit;
 	this.lowestTemp = lowestTemp;
@@ -85,22 +55,20 @@ public class Vehicle {
 	this.humidityUnit = humidityUnit;
     }
 
-    public Vehicle(String vehicleType,
-		   String vehicleModel,
-		   Integer vehicleCapacity,
-		   String unit,
-		   Integer areaCoverage,
-		   String coverageUnit,
-		   Integer lowestTemp,
-		   Integer highestTemp,
-		   String tempUnit,
-		   Integer lowestHumidity,
-		   Integer highestHumidity,
-		   String humidityUnit) {
+    public VehicleDTO(Long vehicleId, Long providerID, String vehicleType,
+		      String vehicleModel, Integer vehicleCapacity,
+		      String capacityUnit, Integer areaCoverage,
+		      String coverageUnit, Integer lowestTemp,
+		      Integer highestTemp, String tempUnit,
+		      Integer lowestHumidity, Integer highestHumidity,
+		      String humidityUnit, Tech tech, Set<Route> routes,
+		      Provider provider) {
+	this.vehicleId = vehicleId;
+	this.providerID = providerID;
 	this.vehicleType = vehicleType;
 	this.vehicleModel = vehicleModel;
 	this.vehicleCapacity = vehicleCapacity;
-	this.capacityUnit = unit;
+	this.capacityUnit = capacityUnit;
 	this.areaCoverage = areaCoverage;
 	this.coverageUnit = coverageUnit;
 	this.lowestTemp = lowestTemp;
@@ -109,15 +77,9 @@ public class Vehicle {
 	this.lowestHumidity = lowestHumidity;
 	this.highestHumidity = highestHumidity;
 	this.humidityUnit = humidityUnit;
-    }
-
-
-    public Tech getTech() {
-	return tech;
-    }
-
-    public void setTech(Tech tech) {
 	this.tech = tech;
+	this.routes = routes;
+	this.provider = provider;
     }
 
     public Long getVehicleId() {
@@ -126,6 +88,14 @@ public class Vehicle {
 
     public void setVehicleId(Long vehicleId) {
 	this.vehicleId = vehicleId;
+    }
+
+    public Long getProviderID() {
+	return providerID;
+    }
+
+    public void setProviderID(Long providerID) {
+	this.providerID = providerID;
     }
 
     public String getVehicleType() {
@@ -156,8 +126,8 @@ public class Vehicle {
 	return capacityUnit;
     }
 
-    public void setCapacityUnit(String unit) {
-	this.capacityUnit = unit;
+    public void setCapacityUnit(String capacityUnit) {
+	this.capacityUnit = capacityUnit;
     }
 
     public Integer getAreaCoverage() {
@@ -224,13 +194,12 @@ public class Vehicle {
 	this.humidityUnit = humidityUnit;
     }
 
-    @NonNull
-    public Long getProviderID() {
-	return providerID;
+    public Tech getTech() {
+	return tech;
     }
 
-    public void setProviderID(@NonNull Long providerID) {
-	this.providerID = providerID;
+    public void setTech(Tech tech) {
+	this.tech = tech;
     }
 
     public Set<Route> getRoutes() {
@@ -245,30 +214,7 @@ public class Vehicle {
 	return provider;
     }
 
-    public void setProviderCompany(Provider provider) {
+    public void setProvider(Provider provider) {
 	this.provider = provider;
-    }
-
-    public void insertRoute(Route route){
-        this.routes.add(route);
-    }
-
-    @Override
-    public String toString() {
-	return "Vehicle{" +
-	", vehicleId=" + vehicleId +
-	", vehicleType='" + vehicleType + '\'' +
-	", vehicleModel='" + vehicleModel + '\'' +
-	", vehicleCapacity=" + vehicleCapacity +
-	", capacityUnit='" + capacityUnit + '\'' +
-	", areaCoverage='" + areaCoverage + '\'' +
-	", coverageUnit=" + coverageUnit +
-	", lowestTemp=" + lowestTemp +
-	", highestTemp=" + highestTemp +
-	", tempUnit='" + tempUnit + '\'' +
-	", lowestHumidity=" + lowestHumidity +
-	", highestHumidity=" + highestHumidity +
-	", humidityUnit='" + humidityUnit + '\'' +
-	'}';
     }
 }

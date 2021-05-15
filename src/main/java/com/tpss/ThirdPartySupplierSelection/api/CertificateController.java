@@ -1,5 +1,6 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
+import com.tpss.ThirdPartySupplierSelection.dto.CertificateDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Certificate;
 import com.tpss.ThirdPartySupplierSelection.payload.response.MessageResponse;
 import com.tpss.ThirdPartySupplierSelection.services.CertificateService;
@@ -23,18 +24,18 @@ public class CertificateController {
     }
 
     @GetMapping(path="")
-    public ResponseEntity<Page<Certificate>> getAll(
+    public ResponseEntity<Page<CertificateDTO>> getAll(
     @RequestParam(name="page", defaultValue = "0") int page,
     @RequestParam(name="size", defaultValue = "3") int size
     //,@RequestParam(name="sort", defaultValue = "id") String[] sort
     ){
-	Page<Certificate> allCertificates = certificateService.getAll(page,size);
+	Page<CertificateDTO> allCertificates = certificateService.getAll(page,size);
 	return ResponseEntity.status(HttpStatus.OK).body(allCertificates);
     }
 
     @GetMapping(path="{id}")
-    public ResponseEntity<Certificate> getOneByID(@PathVariable("id") Long id){
-	Certificate certificate = certificateService.getOneByID(id).get();
+    public ResponseEntity<CertificateDTO> getOneByID(@PathVariable("id") Long id){
+	CertificateDTO certificate = certificateService.getOneByID(id);
 	return ResponseEntity.status(HttpStatus.OK).body(certificate);
     }
 

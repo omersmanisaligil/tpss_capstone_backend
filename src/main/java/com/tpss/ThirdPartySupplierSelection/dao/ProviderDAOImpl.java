@@ -35,20 +35,22 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
     @Override
     public List<Provider> filterData(HashMap<String, Object> filters) {
 	String productName = (String)filters.get("productName");
+	if(productName == null || productName == "") productName = "pr.product_name ";
+
 	String operationArea = (String)filters.get("operationArea");
+	if(operationArea == null || operationArea == "") operationArea = "provider.operation_area ";
+
 	List<String> certs = (List<String>)filters.get("certs");
 	ArrayList<Object> params = new ArrayList<>();
 
-	int certCount = ((List<String>)filters.get("certs")).size();
 	StringBuilder sb = new StringBuilder(queryPt1);
 
-	if(productName != null && productName != ""){
-	    sb.append(innerJoin);
-	    sb.append(queryPt2);
-	    params.add(productName);
-	}
+	sb.append(innerJoin);
+	sb.append(queryPt2);
+	params.add(productName);
 
 	if(certs != null && certs.size()>0){
+	    int certCount = ((List<String>)filters.get("certs")).size();
 	    sb.append(innerJoin);
 	    sb.append(queryPt3);
 	    params.add(certs.get(0));
@@ -61,19 +63,18 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
 	    params.add(certCount);
 	}
 
-	if(operationArea != null && operationArea != ""){
-	    sb.append(queryPt5);
-	    params.add(operationArea);
-	}
+	sb.append(queryPt5);
+	params.add(operationArea);
 
+	System.out.println(sb.toString());
 	Query q = entityManager.createNativeQuery(sb.toString(), Provider.class);
 
 	for(int i = 0; i<params.size();i++){
-	   q.setParameter(i+1, params.get(i));
+	    q.setParameter(i+1, params.get(i));
 	}
-
+	System.out.println(params);
 	List<Provider> result = q.getResultList();
+	System.out.println(result);
 	return result;
     }
-
 }

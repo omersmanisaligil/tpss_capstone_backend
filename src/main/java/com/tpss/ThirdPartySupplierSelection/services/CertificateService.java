@@ -1,32 +1,44 @@
 package com.tpss.ThirdPartySupplierSelection.services;
 
 import com.tpss.ThirdPartySupplierSelection.dao.CertificateDAO;
+import com.tpss.ThirdPartySupplierSelection.dto.CertificateDTO;
+import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
 import com.tpss.ThirdPartySupplierSelection.entity.Certificate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CertificateService extends GenericService{
+public class CertificateService {
 
     @Autowired
     private CertificateDAO certificateDAO;
 
-    public Page<Certificate> getAll(int page, int size){
+    public Page<CertificateDTO> getAll(int page, int size){
 	Pageable pageRequest = PageRequest.of(page, size);
-	Page<Certificate> certificates = certificateDAO.findAll(pageRequest);
+	List<Certificate> certificates = certificateDAO.findAll();
 
-	return certificates;
+	List<CertificateDTO> certDTOList = DTOMapper.toCertificateDTOList(certificates);
+
+	PageImpl<CertificateDTO> certDTOPage = new PageImpl<CertificateDTO>(
+						certDTOList.subList(page*size, page*(size+1)),
+						pageRequest,
+						certDTOList.size());
+
+
+	return certDTOPage;
     }
 
-    public Optional<Certificate> getOneByID(Long id){
+    public CertificateDTO getOneByID(Long id){
 	Optional<Certificate> certificate = certificateDAO.findById(id);
-
-	return certificate;
+	CertificateDTO certDTO = DTOMapper.toCertDTO(certificate.get());
+	return certDTO;
     }
 
     public boolean existsByCertName(String certName){

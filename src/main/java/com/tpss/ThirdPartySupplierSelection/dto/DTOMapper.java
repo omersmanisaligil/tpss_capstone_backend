@@ -1,10 +1,9 @@
 package com.tpss.ThirdPartySupplierSelection.dto;
 
-import com.tpss.ThirdPartySupplierSelection.entity.Order;
-import com.tpss.ThirdPartySupplierSelection.entity.Provider;
-import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
+import com.tpss.ThirdPartySupplierSelection.entity.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,7 +28,6 @@ public class DTOMapper {
             greenPercentage = 0;
         }
 
-        //TODO check if we lose the id at some point
         providerDTO.setProviderId(provider.getProviderId());
         providerDTO.setProviderName(provider.getProviderName());
         providerDTO.setProviderDesc(provider.getProviderDesc());
@@ -46,12 +44,143 @@ public class DTOMapper {
         return providerDTO;
     }
 
-    public static List<ProviderDTO> toProviderDTOList(List<Provider> providerList){
+    public static VehicleDTO toVehicleDTO(Vehicle vehicle){
+        VehicleDTO vehicleDTO = new VehicleDTO();
+        Set<Route> routes = vehicle.getRoutes();
+        Provider provider = vehicle.getProvider();
+        Tech tech = vehicle.getTech();
+
+        vehicleDTO.setVehicleId(vehicle.getVehicleId());
+        vehicleDTO.setProviderID(vehicle.getProviderID());
+        vehicleDTO.setVehicleType(vehicle.getVehicleType());
+        vehicleDTO.setVehicleModel(vehicle.getVehicleModel());
+        vehicleDTO.setVehicleCapacity(vehicle.getVehicleCapacity());
+        vehicleDTO.setCapacityUnit(vehicle.getCapacityUnit());
+        vehicleDTO.setAreaCoverage(vehicle.getAreaCoverage());
+        vehicleDTO.setCoverageUnit(vehicle.getCoverageUnit());
+        vehicleDTO.setLowestTemp(vehicle.getLowestTemp());
+        vehicleDTO.setHighestTemp(vehicle.getHighestTemp());
+        vehicleDTO.setTempUnit(vehicle.getTempUnit());
+        vehicleDTO.setLowestHumidity(vehicle.getLowestHumidity());
+        vehicleDTO.setHighestHumidity(vehicle.getHighestHumidity());
+        vehicleDTO.setHumidityUnit(vehicle.getHumidityUnit());
+        vehicleDTO.setRoutes(routes);
+        vehicleDTO.setProvider(provider);
+        vehicleDTO.setTech(tech);
+
+        return vehicleDTO;
+    }
+
+    public static OrderDTO toOrderDTO(Order order){
+        OrderDTO orderDTO = new OrderDTO();
+        User user = order.getOwner();
+        Provider provider = order.getProvider();
+
+        orderDTO.setOrderId(order.getOrderId());
+        orderDTO.setOwnerId(order.getOrderId());
+        orderDTO.setProviderId(order.getProviderId());
+        orderDTO.setPromisedArrival(order.getPromisedArrival());
+        orderDTO.setActualArrival(order.getActualArrival());
+        orderDTO.setAmountOrdered(order.getAmountOrdered());
+        orderDTO.setUnit(order.getUnit());
+        orderDTO.setAmountDelivered(order.getAmountDelivered());
+        orderDTO.setAmountLost(order.getAmountLost());
+        orderDTO.setPaidAmount(order.getPaidAmount());
+        orderDTO.setCurrency(order.getCurrency());
+        orderDTO.setState(order.getState());
+
+        orderDTO.setOwner(user);
+        orderDTO.setProvider(provider);
+
+        return orderDTO;
+    }
+
+    public static ProductDTO toProductDTO(Product product){
+        ProductDTO productDTO = new ProductDTO();
+        Set<Provider> providers = new HashSet<Provider>();
+
+        productDTO.setProductId(product.getProductId());
+        productDTO.setProductName(product.getProductName());
+        productDTO.setIdealTemp(product.getIdealTemp());
+        productDTO.setTempUnit(product.getTempUnit());
+        productDTO.setIdealHumidity(product.getIdealHumidity());
+        productDTO.setHumidityUnit(product.getHumidityUnit());
+
+        productDTO.setProviders(providers);
+
+        return productDTO;
+    }
+
+    public static RouteDTO toRouteDTO(Route route){
+        RouteDTO routeDTO = new RouteDTO();
+        Vehicle vehicle = route.getVehicle();
+
+        routeDTO.setRouteId(route.getRouteId());
+        routeDTO.setFrom(route.getFrom());
+        routeDTO.setTo(route.getTo());
+        routeDTO.setDestinations(route.getDestinations());
+        routeDTO.setVehicle(route.getVehicle());
+
+        return routeDTO;
+    }
+
+    public static CertificateDTO toCertDTO(Certificate certificate){
+        CertificateDTO certificateDTO = new CertificateDTO();
+        Set<Provider> providers = new HashSet<Provider>();
+
+        certificateDTO.setCertId(certificate.getCertId());
+        certificateDTO.setCertName(certificateDTO.getCertName());
+
+        certificateDTO.setProviders(providers);
+
+        return certificateDTO;
+    }
+
+    public static List<VehicleDTO> toVehicleDTOList(List<Vehicle> vehicleList){
+        ArrayList<VehicleDTO> vehicleDTOList = new ArrayList<>();
+        for (Vehicle v : vehicleList) {
+            vehicleDTOList.add(toVehicleDTO(v));
+        }
+        return vehicleDTOList;
+    }
+
+    public static List<OrderDTO> toOrderDTOList(List<Order> orderList){
+        ArrayList<OrderDTO> orderDTOList = new ArrayList<>();
+        for (Order o : orderList) {
+            orderDTOList.add(toOrderDTO(o));
+        }
+        return orderDTOList;
+    }
+
+    public static List<ProductDTO> toProductDTOList(List<Product> productList){
+        ArrayList<ProductDTO> productDTOList = new ArrayList<>();
+        for (Product p : productList) {
+            productDTOList.add(toProductDTO(p));
+        }
+        return productDTOList;
+    }
+
+    public static List<RouteDTO> toRouteDTOList(List<Route> routeList){
+        ArrayList<RouteDTO> routeDTOList = new ArrayList<>();
+        for (Route r : routeList){
+            routeDTOList.add(toRouteDTO(r));
+        }
+        return routeDTOList;
+    }
+
+    public static List<CertificateDTO> toCertificateDTOList(List<Certificate> certificates){
+        ArrayList<CertificateDTO> certificateDTOList = new ArrayList<>();
+        for (Certificate c : certificates) {
+            certificateDTOList.add(toCertDTO(c));
+        }
+        return certificateDTOList;
+    }
+
+    public static List<ProviderDTO> toProviderDTOList(List<Provider> providerList) {
         ArrayList<ProviderDTO> providerDTOList = new ArrayList<>();
         for (Provider p : providerList) {
             providerDTOList.add(toProviderDTO(p));
         }
         return providerDTOList;
     }
-
 }

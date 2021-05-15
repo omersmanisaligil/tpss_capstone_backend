@@ -6,6 +6,7 @@ import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.*;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddProviderRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
+import com.tpss.ThirdPartySupplierSelection.util.PageImplCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ProviderService extends GenericService{
+public class ProviderService{
 
     @Autowired
     ProviderDAO providerDAO;
@@ -40,10 +41,9 @@ public class ProviderService extends GenericService{
 
         List<ProviderDTO> providerDTOList = DTOMapper.toProviderDTOList(providers);
 
-        PageImpl<ProviderDTO> providerDTOPage = new PageImpl<ProviderDTO>(
-                                                providerDTOList.subList(page*size,page*size+size),
-                                                pageRequest,
-                                                providerDTOList.size());
+        PageImpl<ProviderDTO> providerDTOPage = PageImplCustom.createPage(
+                                                providerDTOList,
+                                                pageRequest);
         return providerDTOPage;
     }
 
@@ -64,10 +64,9 @@ public class ProviderService extends GenericService{
 
         providerDTOList = DTOMapper.toProviderDTOList(providersOfArea);
 
-        PageImpl<ProviderDTO> providerDTOPage = new PageImpl<ProviderDTO>(
-                                                providerDTOList.subList(page*size,page*size+size),
-                                                pageable,
-                                                providerDTOList.size());
+        PageImpl<ProviderDTO> providerDTOPage = PageImplCustom.createPage(
+                                                providerDTOList,
+                                                pageable);
 
         return providerDTOPage;
     }
@@ -79,10 +78,9 @@ public class ProviderService extends GenericService{
 
         providerDTOList = DTOMapper.toProviderDTOList(providerList);
 
-        PageImpl<ProviderDTO> providerDTOPage = new PageImpl<ProviderDTO>(
-                                                providerDTOList.subList(page*size,page*size+size),
-                                                pageable,
-                                                providerDTOList.size());
+        PageImpl<ProviderDTO> providerDTOPage = PageImplCustom.createPage(
+                                                providerDTOList,
+                                                pageable);
 
         return providerDTOPage;
     }
