@@ -1,13 +1,17 @@
 package com.tpss.ThirdPartySupplierSelection.services;
 
 import com.tpss.ThirdPartySupplierSelection.dao.OrderDAO;
+import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
+import com.tpss.ThirdPartySupplierSelection.dto.OrderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Order;
+import com.tpss.ThirdPartySupplierSelection.util.PageImplCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,11 +20,16 @@ public class OrderService {
     @Autowired
     OrderDAO orderDAO;
 
-    public Page<Order> getAll(int page, int size){
+    public Page<OrderDTO> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
-        Page<Order> orders= orderDAO.findAll(pageRequest);
+        List<Order> orders= orderDAO.findAll();
 
-        return orders;
+        List<OrderDTO> orderDTOs = DTOMapper.toOrderDTOList(orders);
+        Page<OrderDTO> orderDTOPage = PageImplCustom.createPage(
+                                                    orderDTOs,
+                                                    pageRequest);
+
+        return orderDTOPage;
     }
 
     public Optional<Order> getOneByID(Long id){

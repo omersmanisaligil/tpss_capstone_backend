@@ -128,7 +128,7 @@ public class ProviderService{
         if (productNames != null && productNames.length > 0){
             for(String productName : productNames){
                 if(productService.existsByProductName(productName.toUpperCase())){
-                    Product product = productService.getOneByProductName(productName).get();
+                    Product product = productService.getOneByProductName(productName);
 
                     product.insertProvider(provider);
                 }

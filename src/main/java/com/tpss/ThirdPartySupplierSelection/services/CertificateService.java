@@ -4,6 +4,7 @@ import com.tpss.ThirdPartySupplierSelection.dao.CertificateDAO;
 import com.tpss.ThirdPartySupplierSelection.dto.CertificateDTO;
 import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
 import com.tpss.ThirdPartySupplierSelection.entity.Certificate;
+import com.tpss.ThirdPartySupplierSelection.util.PageImplCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -26,10 +27,9 @@ public class CertificateService {
 
 	List<CertificateDTO> certDTOList = DTOMapper.toCertificateDTOList(certificates);
 
-	PageImpl<CertificateDTO> certDTOPage = new PageImpl<CertificateDTO>(
-						certDTOList.subList(page*size, page*(size+1)),
-						pageRequest,
-						certDTOList.size());
+	PageImpl<CertificateDTO> certDTOPage = PageImplCustom.createPage(
+						certDTOList,
+						pageRequest);
 
 
 	return certDTOPage;

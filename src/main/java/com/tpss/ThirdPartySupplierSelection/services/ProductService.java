@@ -1,7 +1,10 @@
 package com.tpss.ThirdPartySupplierSelection.services;
 
 import com.tpss.ThirdPartySupplierSelection.dao.ProductDAO;
+import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
+import com.tpss.ThirdPartySupplierSelection.dto.ProductDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Product;
+import com.tpss.ThirdPartySupplierSelection.util.PageImplCustom;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,30 +21,37 @@ public class ProductService {
     @Autowired
     private ProductDAO productDAO;
 
-    public Page<Product> getAll(int page, int size){
+    public Page<ProductDTO> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
-        Page<Product> products= productDAO.findAll(pageRequest);
+        List<Product> products= productDAO.findAll();
 
-        return products;
+        List<ProductDTO> productDTOs = DTOMapper.toProductDTOList(products);
+        Page<ProductDTO> productDTOPage = PageImplCustom.createPage(productDTOs,pageRequest);
+
+        return productDTOPage;
     }
 
-    public Optional<Product> getOneByID(Long id){
-        Optional<Product> product = productDAO.findById(id);
+    public ProductDTO getOneByID(Long id){
+        Product product = productDAO.findById(id).get();
 
+        ProductDTO productDTO = DTOMapper.toProductDTO(product);
+
+        return productDTO;
+    }
+
+    public Product getOneByProductName(String productName){
+        Product product = productDAO.findByProductName(productName).get();
         return product;
     }
 
-    public Optional<Product> getOneByProductName(String productName){
-        Optional<Product> product = productDAO.findByProductName(productName);
-
-        return product;
-    }
-
-    public Page<Product> searchByName(int page, int size, String name){
+    public Page<ProductDTO> searchByName(int page, int size, String name){
         Pageable pageable = PageRequest.of(page,size);
-        Page<Product> products = productDAO.searchByProductName(name,pageable);
+        List<Product> products = productDAO.searchByProductName(name);
 
-        return products;
+        List<ProductDTO> productDTOs = DTOMapper.toProductDTOList(products);
+        Page<ProductDTO> productDTOPage = PageImplCustom.createPage(productDTOs,pageable);
+
+        return productDTOPage;
     }
 
     public boolean existsByProductName(String productName){

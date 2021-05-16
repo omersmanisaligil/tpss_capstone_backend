@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductDAO extends JpaRepository<Product,Long> {
@@ -15,13 +16,13 @@ public interface ProductDAO extends JpaRepository<Product,Long> {
     Optional<Product> findByProductName(String productName);
 
     @Query(value = "SELECT p from Product p WHERE p.productName LIKE %:productName%")
-    Page<Product> searchByProductName(@Param("productName") String productName, Pageable pageable);
+    List<Product> searchByProductName(@Param("productName") String productName);
 
     @Override
     Product save(Product product);
 
     @Override
-    Page<Product> findAll(Pageable pageable);
+    List<Product> findAll();
 
     Boolean existsByProductName(String productName);
 }
