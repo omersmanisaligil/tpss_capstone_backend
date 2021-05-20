@@ -7,6 +7,7 @@ import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Product;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
+import com.tpss.ThirdPartySupplierSelection.mcdm.waspas.WaspasImpl;
 import com.tpss.ThirdPartySupplierSelection.payload.request.ProviderFilterRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.request.ProviderOrderRequest;
 import com.tpss.ThirdPartySupplierSelection.util.PageImplCustom;
@@ -69,8 +70,12 @@ public class MCDMService {
         filters.put("unit",providerOrderRequest.getUnit());
 
         List<Provider> filteredProviders = providerDAOImpl.filterDataForOrders(filters);
+        List<ProviderDTO> waspasSortedList = WaspasImpl.execute(filteredProviders);
 
+        Page<ProviderDTO> waspasProvidersPage = PageImplCustom.createPage(
+        waspasSortedList,
+        pageRequest);
 
-        return null;
+        return waspasProvidersPage;
     }
 }
