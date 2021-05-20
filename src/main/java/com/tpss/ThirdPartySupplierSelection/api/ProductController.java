@@ -1,5 +1,6 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
+import com.tpss.ThirdPartySupplierSelection.dto.ProductDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Product;
 import com.tpss.ThirdPartySupplierSelection.payload.response.MessageResponse;
 import com.tpss.ThirdPartySupplierSelection.services.ProductService;
@@ -23,35 +24,35 @@ public class ProductController {
     }
 
     @GetMapping(path="")
-    public ResponseEntity<Page<Product>> getAll(@RequestParam(name="page", defaultValue = "0") int page,
+    public ResponseEntity<Page<ProductDTO>> getAll(@RequestParam(name="page", defaultValue = "0") int page,
 						@RequestParam(name="size", defaultValue = "3") int size
 						/*,@RequestParam(name="sort", defaultValue = "id") String[] sort*/){
-	Page<Product> allProducts = productService.getAll(page,size);
+	Page<ProductDTO> allProducts = productService.getAll(page,size);
 	return ResponseEntity.status(HttpStatus.OK).body(allProducts);
     }
 
     @GetMapping(path="{id}")
-    public ResponseEntity<Product> getOneByID(@PathVariable("id") Long id){
-	Product product = productService.getOneByID(id).get();
+    public ResponseEntity<ProductDTO> getOneByID(@PathVariable("id") Long id){
+	ProductDTO product = productService.getOneByID(id);
 	return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @GetMapping(path="/search/")
-    public ResponseEntity<Page<Product>> searchByName(@RequestParam(name="productName") String productName,
+    public ResponseEntity<Page<ProductDTO>> searchByName(@RequestParam(name="productName") String productName,
     						      @RequestParam(name="page", defaultValue = "0") int page,
 						      @RequestParam(name="size", defaultValue = "3") int size){
-        Page<Product> products = productService.searchByName(page,size,productName);
+        Page<ProductDTO> products = productService.searchByName(page,size,productName);
         return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
     @PostMapping(path="/add")
     public ResponseEntity<?> addProduct(@Validated @NonNull @RequestBody Product product){
 	boolean doesExist = productService.addProduct(product);
-	if(!doesExist)
-	    return ResponseEntity.status(HttpStatus.CREATED).build();
-	else
+	if(doesExist)
 	    return  ResponseEntity.status(HttpStatus.CONFLICT)
-	    	.body(new MessageResponse("Product with name " + product.getProductName() + " already exists"));
+	    .body(new MessageResponse("Product with name " + product.getProductName() + " already exists"));
+	else
+	    return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping(path="/edit/{id}")
