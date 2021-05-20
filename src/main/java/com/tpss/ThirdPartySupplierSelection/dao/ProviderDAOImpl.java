@@ -77,4 +77,9 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
 	List<Provider> result = q.getResultList();
 	return result;
     }
+
+    public List<Provider> filterDataForOrders(HashMap<String, Object> filters) {
+        List<Provider> initialFilteredProviders = filterData(filters);
+	return null;
+    }
 }
