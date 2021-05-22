@@ -15,7 +15,8 @@ public class OrderDTO {
     private Integer amountOrdered;
     private String unit;
     private Integer amountDelivered;
-    private Integer amountLost;
+    private Integer amountCrushed;
+    private Integer amountSpoiled;
     private Integer paidAmount;
     private String currency;
     private String state;
@@ -29,7 +30,7 @@ public class OrderDTO {
     public OrderDTO(Long orderId, Long ownerId, Long providerId,
 		    Date promisedArrival, Date actualArrival,
 		    Integer amountOrdered, String unit,
-		    Integer amountDelivered, Integer amountLost,
+		    Integer amountDelivered,Integer amountCrushed,
 		    Integer paidAmount, String currency,
 		    String state,User owner, Provider provider) {
 	this.orderId = orderId;
@@ -40,7 +41,8 @@ public class OrderDTO {
 	this.amountOrdered = amountOrdered;
 	this.unit = unit;
 	this.amountDelivered = amountDelivered;
-	this.amountLost = amountLost;
+	this.amountSpoiled = amountSpoiled;
+	this.amountCrushed = amountCrushed;
 	this.paidAmount = paidAmount;
 	this.currency = currency;
 	this.state = state;
@@ -112,12 +114,20 @@ public class OrderDTO {
 	this.amountDelivered = amountDelivered;
     }
 
-    public Integer getAmountLost() {
-	return amountLost;
+    public Integer getAmountCrushed() {
+	return amountCrushed;
     }
 
-    public void setAmountLost(Integer amountLost) {
-	this.amountLost = amountLost;
+    public void setAmountCrushed(Integer amountCrushed) {
+	this.amountCrushed = amountCrushed;
+    }
+
+    public Integer getAmountSpoiled() {
+	return amountSpoiled;
+    }
+
+    public void setAmountSpoiled(Integer amountSpoiled) {
+	this.amountSpoiled = amountSpoiled;
     }
 
     public Integer getPaidAmount() {

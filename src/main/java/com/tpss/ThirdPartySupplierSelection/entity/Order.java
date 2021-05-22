@@ -27,8 +27,10 @@ public class Order {
     private String unit;
     @NonNull @Column(name="delivered_amount")
     private Integer amountDelivered;
-    @NonNull @Column(name="lost_amount")
-    private Integer amountLost;
+    @NonNull @Column(name="spoiled_amount")
+    private Integer amountSpoiled;
+    @NonNull @Column(name="crushed_amount")
+    private Integer amountCrushed;
     @NonNull @Column(name="paid_amount")
     private Integer paidAmount;
     @NonNull @Column(name="currency")
@@ -56,7 +58,8 @@ public class Order {
 		 Integer amountOrdered,
 		 String unit,
 		 Integer amountDelivered,
-		 Integer amountLost,
+		 Integer amountCrushed,
+		 Integer amountSpoiled,
 		 Integer paidAmount,
 		 String currency) {
 
@@ -68,7 +71,8 @@ public class Order {
 	this.amountOrdered = amountOrdered;
 	this.unit = unit;
 	this.amountDelivered = amountDelivered;
-	this.amountLost = amountLost;
+	this.amountSpoiled = amountSpoiled;
+	this.amountCrushed = amountCrushed;
 	this.paidAmount = paidAmount;
 	this.currency = currency;
     }
@@ -80,7 +84,8 @@ public class Order {
 		 Integer amountOrdered,
 		 String unit,
 		 Integer amountDelivered,
-		 Integer amountLost,
+		 Integer amountCrushed,
+		 Integer amountSpoiled,
 		 Integer paidAmount,
 		 String currency) {
 
@@ -91,8 +96,9 @@ public class Order {
 	this.amountOrdered = amountOrdered;
 	this.unit = unit;
 	this.amountDelivered = amountDelivered;
-	this.amountLost = amountLost;
+	this.amountCrushed = amountCrushed;
 	this.paidAmount = paidAmount;
+	this.amountSpoiled = amountSpoiled;
 	this.currency = currency;
     }
 
@@ -128,12 +134,19 @@ public class Order {
 	this.amountDelivered = amountDelivered;
     }
 
-    public Integer getAmountLost() {
-	return amountLost;
+    public Integer getAmountSpoiled() {
+	return amountSpoiled;
     }
 
-    public void setAmountLost(Integer amountLost) {
-	this.amountLost = amountLost;
+    public void setAmountSpoiled(Integer amountSpoiled) {
+	this.amountSpoiled = amountSpoiled;
+    }
+    public Integer getAmountCrushed() {
+	return amountCrushed;
+    }
+
+    public void setAmountCrushed(Integer amountCrushed) {
+	this.amountCrushed = amountCrushed;
     }
 
     public Integer getPaidAmount() {
@@ -220,7 +233,8 @@ public class Order {
 	", amountOrdered=" + amountOrdered +
 	", unit='" + unit + '\'' +
 	", amountDelivered=" + amountDelivered +
-	", amountLost=" + amountLost +
+	", amountSpoiled=" + amountSpoiled +
+	", amountCrushed=" + amountCrushed +
 	", paidAmount=" + paidAmount +
 	", currency='" + currency + '\'' +
 	'}';

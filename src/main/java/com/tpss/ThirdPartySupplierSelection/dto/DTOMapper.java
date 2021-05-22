@@ -17,7 +17,7 @@ public class DTOMapper {
         int vehicleCount = vehicles.size();
         int greenVehicleCount = vehicles.stream().filter(
                                     vehicle->{
-                                        return vehicle.getVehicleType().equalsIgnoreCase("green");
+                                        return vehicle.get().equalsIgnoreCase("green");
                                     }).collect(Collectors.toList()).size();
 
         int greenPercentage;
@@ -84,7 +84,8 @@ public class DTOMapper {
         orderDTO.setAmountOrdered(order.getAmountOrdered());
         orderDTO.setUnit(order.getUnit());
         orderDTO.setAmountDelivered(order.getAmountDelivered());
-        orderDTO.setAmountLost(order.getAmountLost());
+        orderDTO.setAmountSpoiled(order.getAmountSpoiled());
+        orderDTO.setAmountCrushed(order.getAmountCrushed());
         orderDTO.setPaidAmount(order.getPaidAmount());
         orderDTO.setCurrency(order.getCurrency());
         orderDTO.setState(order.getState());

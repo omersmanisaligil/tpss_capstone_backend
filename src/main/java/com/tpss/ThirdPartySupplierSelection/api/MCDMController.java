@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/mcdm")
@@ -30,19 +29,17 @@ public class MCDMController {
 
     @GetMapping("/waspas")
     public ResponseEntity<Page<ProviderDTO>> applyWASPAS(@RequestParam(name="page", defaultValue="0") int page,
-                                                      @RequestParam(name="size", defaultValue = "0") int size,
-                                                      ProviderOrderRequest providerOrderRequest){
+                                                         @RequestParam(name="size", defaultValue = "0") int size,
+                                                         ProviderOrderRequest providerOrderRequest){
         Page<ProviderDTO> providersWASPAS = mcdmService.applyWASPAS(providerOrderRequest,page,size);
         return ResponseEntity.status(HttpStatus.OK).body(providersWASPAS);
     }
 
-    @GetMapping("/topsis")
-    public ResponseEntity<Page<ProviderDTO>> applyTOPSIS(@RequestParam(name="page", defaultValue="0") int page,
-                                                      @RequestParam(name="size", defaultValue = "0") int size,
-                                                      ProviderOrderRequest providerOrderRequest){
-        Page<ProviderDTO> providersTOPSIS = mcdmService.applyTOPSIS(providerOrderRequest,page,size);
-        return ResponseEntity.status(HttpStatus.OK).body(providersTOPSIS);
-    }
-
-
+    //@GetMapping("/topsis")
+    //public ResponseEntity<Page<ProviderDTO>> applyTOPSIS(@RequestParam(name="page", defaultValue="0") int page,
+    //                                                  @RequestParam(name="size", defaultValue = "0") int size,
+    //                                                  ProviderOrderRequest providerOrderRequest){
+    //    Page<ProviderDTO> providersTOPSIS = mcdmService.applyTOPSIS(providerOrderRequest,page,size);
+    //    return ResponseEntity.status(HttpStatus.OK).body(providersTOPSIS);
+    //}
 }

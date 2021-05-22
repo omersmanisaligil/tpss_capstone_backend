@@ -40,6 +40,9 @@ public class Vehicle {
     private Integer highestHumidity;
     @Column(name="humidity_unit")
     private String humidityUnit;
+    @Column(name="fuel_type")
+    private String fuelType;
+    @Column(name="accident_count")
 
     @ManyToOne
     @JoinColumn(name="tech_id", referencedColumnName="tech_id", insertable=false, updatable=false)
@@ -69,7 +72,8 @@ public class Vehicle {
 		   String tempUnit,
 		   Integer lowestHumidity,
 		   Integer highestHumidity,
-		   String humidityUnit) {
+		   String humidityUnit,
+		   String fuelType) {
 	this.vehicleId = vehicleId;
 	this.vehicleType = vehicleType;
 	this.vehicleModel = vehicleModel;
@@ -83,6 +87,7 @@ public class Vehicle {
 	this.lowestHumidity = lowestHumidity;
 	this.highestHumidity = highestHumidity;
 	this.humidityUnit = humidityUnit;
+	this.fuelType = fuelType;
     }
 
     public Vehicle(String vehicleType,
@@ -96,7 +101,8 @@ public class Vehicle {
 		   String tempUnit,
 		   Integer lowestHumidity,
 		   Integer highestHumidity,
-		   String humidityUnit) {
+		   String humidityUnit,
+		   String fuelType) {
 	this.vehicleType = vehicleType;
 	this.vehicleModel = vehicleModel;
 	this.vehicleCapacity = vehicleCapacity;
@@ -109,6 +115,7 @@ public class Vehicle {
 	this.lowestHumidity = lowestHumidity;
 	this.highestHumidity = highestHumidity;
 	this.humidityUnit = humidityUnit;
+	this.fuelType = fuelType;
     }
 
 
@@ -269,6 +276,7 @@ public class Vehicle {
 	", lowestHumidity=" + lowestHumidity +
 	", highestHumidity=" + highestHumidity +
 	", humidityUnit='" + humidityUnit + '\'' +
+	", fuelType='" + fuelType + '\'' +
 	'}';
     }
 }

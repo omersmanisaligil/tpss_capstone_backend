@@ -69,8 +69,9 @@ public class MCDMService {
         filters.put("amount", providerOrderRequest.getAmount());
         filters.put("unit",providerOrderRequest.getUnit());
 
-        List<Provider> filteredProviders = providerDAOImpl.filterDataForOrders(filters);
-        List<ProviderDTO> waspasSortedList = WaspasImpl.execute(filteredProviders);
+        List<Provider> providers = providerDAOImpl.filterDataForOrders(filters);
+
+        List<ProviderDTO> waspasSortedList = WaspasImpl.execute(providers);
 
         Page<ProviderDTO> waspasProvidersPage = PageImplCustom.createPage(
         waspasSortedList,
@@ -78,4 +79,9 @@ public class MCDMService {
 
         return waspasProvidersPage;
     }
+
+    public List<ProviderDTO> determineCriteriaPoints(List<Provider> providers){
+        return null;
+    }
+
 }
