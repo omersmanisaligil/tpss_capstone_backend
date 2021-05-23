@@ -43,6 +43,7 @@ public class Vehicle {
     @Column(name="fuel_type")
     private String fuelType;
     @Column(name="accident_count")
+    private Integer accidentCount;
 
     @ManyToOne
     @JoinColumn(name="tech_id", referencedColumnName="tech_id", insertable=false, updatable=false)
@@ -117,7 +118,6 @@ public class Vehicle {
 	this.humidityUnit = humidityUnit;
 	this.fuelType = fuelType;
     }
-
 
     public Tech getTech() {
 	return tech;
@@ -229,6 +229,14 @@ public class Vehicle {
 
     public void setHumidityUnit(String humidityUnit) {
 	this.humidityUnit = humidityUnit;
+    }
+
+    public Integer getAccidentCount() {
+	return accidentCount;
+    }
+
+    public void setAccidentCount(Integer accidentCount) {
+	this.accidentCount = accidentCount;
     }
 
     @NonNull

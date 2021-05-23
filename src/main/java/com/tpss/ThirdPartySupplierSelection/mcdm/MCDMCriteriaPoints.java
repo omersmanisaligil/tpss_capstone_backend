@@ -8,7 +8,13 @@ import java.util.List;
 public class MCDMCriteriaPoints {
 
     public static List<ProviderDTO> determineCriteriaPoints(List<Provider> providers){
-	return null;
+	providers.forEach(
+		provider -> {
+
+		}
+	);
+
+        return null;
     }
 
 }

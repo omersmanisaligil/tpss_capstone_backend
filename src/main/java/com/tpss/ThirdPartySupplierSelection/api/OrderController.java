@@ -1,5 +1,6 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
+import com.tpss.ThirdPartySupplierSelection.dto.OrderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Order;
 import com.tpss.ThirdPartySupplierSelection.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +23,18 @@ public class OrderController {
     }
 
     @GetMapping(path="")
-    public ResponseEntity<Page<Order>> getAll(
+    public ResponseEntity<Page<OrderDTO>> getAll(
     @RequestParam(name="page", defaultValue = "0") int page,
     @RequestParam(name="size", defaultValue = "3") int size
     //,@RequestParam(name="sort", defaultValue = "id") String[] sort
     ){
-	Page<Order> allOrders = orderService.getAll(page,size);
+	Page<OrderDTO> allOrders = orderService.getAll(page,size);
 	return ResponseEntity.status(HttpStatus.OK).body(allOrders);
     }
 
     @GetMapping(path="{id}")
-    public ResponseEntity<Order> getOneByID(@PathVariable("id") Long id){
-	Order order = orderService.getOneByID(id).get();
+    public ResponseEntity<OrderDTO> getOneByID(@PathVariable("id") Long id){
+	OrderDTO order = orderService.getOneByID(id);
 	return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 

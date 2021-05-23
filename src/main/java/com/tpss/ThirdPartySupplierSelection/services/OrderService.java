@@ -32,10 +32,9 @@ public class OrderService {
         return orderDTOPage;
     }
 
-    public Optional<Order> getOneByID(Long id){
+    public OrderDTO getOneByID(Long id){
         Optional<Order> order = orderDAO.findById(id);
-
-        return order;
+        return DTOMapper.toOrderDTO(order.get());
     }
 
     public Order updateOrder(Order order, Long id){

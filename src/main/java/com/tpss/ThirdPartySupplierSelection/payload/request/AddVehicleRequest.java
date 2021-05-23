@@ -43,6 +43,8 @@ public class AddVehicleRequest {
 
     private String humidityMaintainingTech;
 
+    private String fuelType;
+
     @NonNull
     public String getProviderName() {
 	return providerName;
@@ -158,6 +160,14 @@ public class AddVehicleRequest {
 
     public String getTemperatureMonitoringTech() {
 	return temperatureMonitoringTech;
+    }
+
+    public String getFuelType() {
+	return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+	this.fuelType = fuelType;
     }
 
     public void setTemperatureMonitoringTech(String temperatureMonitoringTech) {

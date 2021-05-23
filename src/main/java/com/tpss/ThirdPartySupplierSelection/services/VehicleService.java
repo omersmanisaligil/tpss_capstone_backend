@@ -64,7 +64,8 @@ public class VehicleService {
             vehicleRequest.getTempUnit(),
             vehicleRequest.getLowestHumidity(),
             vehicleRequest.getHighestHumidity(),
-            vehicleRequest.getHumidityUnit()
+            vehicleRequest.getHumidityUnit(),
+            vehicleRequest.getFuelType()
         );
 
         //todo looks ugly
