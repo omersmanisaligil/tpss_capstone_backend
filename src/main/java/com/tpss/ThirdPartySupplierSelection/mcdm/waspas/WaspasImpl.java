@@ -2,6 +2,7 @@ package com.tpss.ThirdPartySupplierSelection.mcdm.waspas;
 
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
+import com.tpss.ThirdPartySupplierSelection.mcdm.MCDMCriteriaPoints;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,8 @@ public class WaspasImpl {
     private static double lambda = 0.5;
 
     public static List<ProviderDTO> execute(List<Provider> list){
+        MCDMCriteriaPoints.determineCriteriaPoints(list);
+
         return null;
     }
 

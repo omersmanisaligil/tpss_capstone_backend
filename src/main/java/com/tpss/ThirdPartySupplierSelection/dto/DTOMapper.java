@@ -17,7 +17,7 @@ public class DTOMapper {
         int vehicleCount = vehicles.size();
         int greenVehicleCount = vehicles.stream().filter(
                                     vehicle->{
-                                        return vehicle.get().equalsIgnoreCase("green");
+                                        return vehicle.getFuelType().equalsIgnoreCase("green");
                                     }).collect(Collectors.toList()).size();
 
         int greenPercentage;

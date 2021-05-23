@@ -55,19 +55,19 @@ public class MCDMService {
 
 //    }
 
-    public Page<ProviderDTO> applyWASPAS(ProviderOrderRequest providerOrderRequest, int page, int size){
-        Pageable pageRequest = PageRequest.of(page,size);
+    public Page<ProviderDTO> applyWASPAS(ProviderOrderRequest providerOrderRequest, int page, int size) {
+        Pageable pageRequest = PageRequest.of(page, size);
 
         HashMap<String, Object> filters = new HashMap<>();
         filters.put("operationArea", providerOrderRequest.getOperationArea());
-        filters.put("productName",providerOrderRequest.getProductName());
-        filters.put("greenPercentage",providerOrderRequest.getGreenPercentage());
-        filters.put("certs",providerOrderRequest.getCerts());
-        filters.put("deliveryLocation",providerOrderRequest.getDeliveryLocation());
+        filters.put("productName", providerOrderRequest.getProductName());
+        filters.put("greenPercentage", providerOrderRequest.getGreenPercentage());
+        filters.put("certs", providerOrderRequest.getCerts());
+        filters.put("deliveryLocation", providerOrderRequest.getDeliveryLocation());
         filters.put("arrivalDate", providerOrderRequest.getArrivalDate());
         filters.put("orderDate", providerOrderRequest.getOrderDate());
         filters.put("amount", providerOrderRequest.getAmount());
-        filters.put("unit",providerOrderRequest.getUnit());
+        filters.put("unit", providerOrderRequest.getUnit());
 
         List<Provider> providers = providerDAOImpl.filterDataForOrders(filters);
 
@@ -79,9 +79,4 @@ public class MCDMService {
 
         return waspasProvidersPage;
     }
-
-    public List<ProviderDTO> determineCriteriaPoints(List<Provider> providers){
-        return null;
-    }
-
 }

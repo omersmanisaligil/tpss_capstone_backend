@@ -260,6 +260,18 @@ public class Vehicle {
         this.routes.add(route);
     }
 
+    public String getFuelType() {
+	return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+	this.fuelType = fuelType;
+    }
+
+    public void setProvider(Provider provider) {
+	this.provider = provider;
+    }
+
     @Override
     public String toString() {
 	return "Vehicle{" +
