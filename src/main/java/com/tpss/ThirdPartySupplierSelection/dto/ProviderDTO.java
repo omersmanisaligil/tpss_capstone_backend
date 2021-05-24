@@ -20,6 +20,8 @@ public class ProviderDTO {
     private Integer totalVehicleCount;
     private Integer greenPercentage;
 
+    private int[] criteriaPoints = new int[17];
+
     private Set<Product> products = new HashSet<Product>();
 
     private Set<Certificate> certificates = new HashSet<Certificate>();
@@ -106,6 +108,14 @@ public class ProviderDTO {
 
     public void setReliabilityPercentage(String reliabilityPercentage) {
 	this.reliabilityPercentage = reliabilityPercentage;
+    }
+
+    public int[] getCriteriaPoints() {
+	return criteriaPoints;
+    }
+
+    public void setCriteriaPoints(int[] criteriaPoints) {
+	this.criteriaPoints = criteriaPoints;
     }
 
     public Integer getTotalVehicleCount() {

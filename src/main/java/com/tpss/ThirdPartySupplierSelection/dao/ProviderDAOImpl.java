@@ -79,7 +79,9 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
     }
 
     public List<Provider> filterDataForOrders(HashMap<String, Object> filters) {
-        List<Provider> initialFilteredProviders = filterData(filters);
-	return null;
+        List<Provider> filteredProviders = filterData(filters);
+
+
+        return filteredProviders;
     }
 }

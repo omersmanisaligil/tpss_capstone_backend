@@ -39,4 +39,22 @@ public class MCDMConstants {
     public static final Double c52 = 0.085;
 
     public static final Double[] weights = {c11,c12,c13,c14,c21,c22,c23,c24,c31,c32,c33,c34,c41,c42,c43,c51,c52};
+
+    public static final int INDEX_COLD_TRACEABILITY = 0;
+    public static final int INDEX_TEMPERATURE_MANAGEMENT = 1;
+    public static final int INDEX_PACKAGING_LABELING = 2;
+    public static final int INDEX_LOGISTICS_APPROACH = 3;
+    public static final int INDEX_DELIVERY_SPEED = 4;
+    public static final int INDEX_DISTRIBUTION_COVERAGE = 5;
+    public static final int INDEX_VEHICLE_CAPACITY = 6;
+    public static final int INDEX_CONDITION_ON_ARRIVAL = 7;
+    public static final int INDEX_FINANCIAL_STABILITY = 8;
+    public static final int INDEX_EXPERIENCE = 9;
+    public static final int INDEX_HUMAN_RES = 10;
+    public static final int INDEX_PARTNERSHIP = 11;
+    public static final int INDEX_ENVIRONMENTAL_AWARENESS = 12;
+    public static final int INDEX_ETHICAL_RESPONSIBILITY = 13;
+    public static final int INDEX_GOVERNANCE = 14;
+    public static final int INDEX_DIRECT_COSTS = 15;
+    public static final int INDEX_INDIRECT_COSTS = 16;
 }

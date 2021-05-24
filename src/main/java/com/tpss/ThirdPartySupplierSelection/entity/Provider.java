@@ -25,7 +25,6 @@ public class Provider {
     @NonNull @Column(name="operation_area")
     String operationArea;
 
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
     name="PROVIDER_PRODUCT_MAP",

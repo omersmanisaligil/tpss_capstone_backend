@@ -13,8 +13,6 @@ public class AddProviderRequest {
 
     Integer foundationYear;
 
-    Integer numberOfOrders;
-
     String operationArea;
 
     String[] productNames;
@@ -51,14 +49,6 @@ public class AddProviderRequest {
 
     public void setFoundationYear(Integer foundationYear) {
 	this.foundationYear = foundationYear;
-    }
-
-    public Integer getNumberOfOrders() {
-	return numberOfOrders;
-    }
-
-    public void setNumberOfOrders(Integer numberOfOrders) {
-	this.numberOfOrders = numberOfOrders;
     }
 
     public String getOperationArea() {
