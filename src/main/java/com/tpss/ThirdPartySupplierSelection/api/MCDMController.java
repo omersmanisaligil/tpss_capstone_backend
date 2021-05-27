@@ -1,6 +1,7 @@
 package com.tpss.ThirdPartySupplierSelection.api;
 
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
+import com.tpss.ThirdPartySupplierSelection.dto.WaspasDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
 import com.tpss.ThirdPartySupplierSelection.payload.request.ProviderFilterRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.request.ProviderOrderRequest;
@@ -28,11 +29,9 @@ public class MCDMController {
     }
 
     @GetMapping("/waspas")
-    public ResponseEntity<Page<ProviderDTO>> applyWASPAS(@RequestParam(name="page", defaultValue="0") int page,
-                                                         @RequestParam(name="size", defaultValue = "0") int size,
-                                                         ProviderOrderRequest providerOrderRequest){
-        Page<ProviderDTO> providersWASPAS = mcdmService.applyWASPAS(providerOrderRequest,page,size);
-        return ResponseEntity.status(HttpStatus.OK).body(providersWASPAS);
+    public ResponseEntity<WaspasDTO> applyWASPAS(ProviderOrderRequest providerOrderRequest){
+        WaspasDTO waspasResults = mcdmService.applyWASPAS(providerOrderRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(waspasResults);
     }
 
     //@GetMapping("/topsis")

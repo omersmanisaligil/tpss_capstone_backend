@@ -1,6 +1,7 @@
 package com.tpss.ThirdPartySupplierSelection.mcdm.waspas;
 
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
+import com.tpss.ThirdPartySupplierSelection.dto.WaspasDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
 import com.tpss.ThirdPartySupplierSelection.mcdm.MCDMConstants;
 import com.tpss.ThirdPartySupplierSelection.mcdm.MCDMCriteriaPoints;
@@ -11,11 +12,11 @@ public class WaspasImpl {
 
     private static double lambda = 0.5;
 
-    public static List<ProviderDTO> execute(List<Provider> list) {
+    public static WaspasDTO execute(List<Provider> list) {
         List<ProviderDTO> providerDTOs = MCDMCriteriaPoints.determineCriteriaPoints(list);
         HashMap<Long,double[]> providerMap = new HashMap<>();
         for (ProviderDTO p : providerDTOs) {
-            System.out.println("criteria points: " + p.getCriteriaPoints());
+          //  System.out.println("criteria points: " + p.getCriteriaPoints());
 
             int[] intArrProviders = p.getCriteriaPoints();
             double[] doubleArrProviders = new double[17];
@@ -27,7 +28,7 @@ public class WaspasImpl {
         }
 
         double[] maxValues = findMaxForCriterias(providerMap.values());
-        System.out.println("max values: " + Arrays.toString(maxValues));
+        //System.out.println("max values: " + Arrays.toString(maxValues));
 
         normalizeMatrice(providerMap,maxValues);
 
@@ -40,7 +41,9 @@ public class WaspasImpl {
 
         HashMap<Long,Double> ranked = rankProviders(wsmMap,wpmMap);
 
-        return null;
+        WaspasDTO waspasDTO = new WaspasDTO(q1Matrice,q2Matrice,wsmMap,wpmMap,ranked,providerDTOs);
+
+        return waspasDTO;
     }
 
     public static HashMap<Long,Double> rankProviders(HashMap<Long,Double> wsm, HashMap<Long,Double> wpm){
@@ -143,7 +146,7 @@ public class WaspasImpl {
     }
 
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         double[] arr0 = {3,4,4,3,3,3,2,4,3,2,3,4,2,2,1,4,3};
         double[] arr1 = {5,4,3,3,4,5,5,3,3,3,5,3,4,3,1,2,3};
         double[] arr2 = {4,3,3,2,4,3,3,3,3,4,3,4,2,2,1,4,3};
@@ -200,5 +203,5 @@ public class WaspasImpl {
             System.out.println("id: " + key + " points: " + ranked.get(key));
         }
 
-    }
+    }*/
 }

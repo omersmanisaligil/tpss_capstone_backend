@@ -14,7 +14,7 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
     EntityManager entityManager;
 
     private  String queryPt1 = "SELECT provider.provider_id,provider_name,provider_desc,foundation_year," +
-    " operation_area, number_of_orders" +
+    " operation_area" +
     " FROM PROVIDER provider";
     private  String queryPt3 =" (SELECT pc.provider_id" +
     " FROM CERTIFICATE cr" +

@@ -5,6 +5,7 @@ import com.tpss.ThirdPartySupplierSelection.dao.ProviderDAO;
 import com.tpss.ThirdPartySupplierSelection.dao.ProviderDAOImpl;
 import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
+import com.tpss.ThirdPartySupplierSelection.dto.WaspasDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Product;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
 import com.tpss.ThirdPartySupplierSelection.mcdm.waspas.WaspasImpl;
@@ -51,8 +52,7 @@ public class MCDMService {
         return filteredProvidersPage;
     }
 
-    public Page<ProviderDTO> applyWASPAS(ProviderOrderRequest providerOrderRequest, int page, int size) {
-        Pageable pageRequest = PageRequest.of(page, size);
+    public WaspasDTO applyWASPAS(ProviderOrderRequest providerOrderRequest) {
 
         HashMap<String, Object> filters = new HashMap<>();
         filters.put("operationArea", providerOrderRequest.getOperationArea());
@@ -67,12 +67,8 @@ public class MCDMService {
 
         List<Provider> providers = providerDAOImpl.filterDataForOrders(filters);
 
-        List<ProviderDTO> waspasSortedList = WaspasImpl.execute(providers);
+        WaspasDTO waspasDTO = WaspasImpl.execute(providers);
 
-        Page<ProviderDTO> waspasProvidersPage = PageImplCustom.createPage(
-        waspasSortedList,
-        pageRequest);
-
-        return waspasProvidersPage;
+        return waspasDTO;
     }
 }

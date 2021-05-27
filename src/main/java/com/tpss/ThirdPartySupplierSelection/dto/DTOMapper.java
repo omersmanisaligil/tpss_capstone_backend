@@ -135,14 +135,17 @@ public class DTOMapper {
         return certificateDTO;
     }
 
-    public static WaspasDTO toWaspasDTO(HashMap<Long,double[]> normalizedMatrice,
-                                        HashMap<Long,double[]> q1,
+    public static WaspasDTO toWaspasDTO(HashMap<Long,double[]> q1,
                                         HashMap<Long,double[]> q2,
                                         HashMap<Long,Double> wsm,
                                         HashMap<Long,Double> wpm,
-                                        HashMap<Long, Double> finalRank){
-
-        return null;
+                                        HashMap<Long, Double> finalRanks,
+                                        List<ProviderDTO> providerDTOList){
+        WaspasDTO waspasDTO = new WaspasDTO(q1,q2,
+                                            wsm,wpm,
+                                            finalRanks,
+                                            providerDTOList);
+        return waspasDTO;
     }
 
     public static List<VehicleDTO> toVehicleDTOList(List<Vehicle> vehicleList){
