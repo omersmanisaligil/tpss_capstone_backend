@@ -74,7 +74,7 @@ public class DTOMapper {
         Provider provider = order.getProvider();
 
         orderDTO.setOrderId(order.getOrderId());
-        orderDTO.setOwnerId(order.getOrderId());
+        orderDTO.setOwnerId(order.getOwnerId());
         orderDTO.setProviderId(order.getProviderId());
         orderDTO.setPromisedArrival(order.getPromisedArrival());
         orderDTO.setActualArrival(order.getActualArrival());
