@@ -258,8 +258,14 @@ public class MCDMCriteriaPoints {
 	    else
 		lateDelivery++;
 	}
-
-	double onTimePercentage = (onTime/(onTime+lateDelivery))*100;
+	double onTimePercentage=1;
+	try{
+	    onTimePercentage = (onTime/(onTime+lateDelivery))*100;
+	}
+	catch(ArithmeticException e){
+	    grade = 1;
+	    return grade;
+	}
 
 	if(onTimePercentage >= 0.8)
 	    grade = 5;
