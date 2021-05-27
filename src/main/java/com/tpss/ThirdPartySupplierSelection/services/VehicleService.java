@@ -69,6 +69,8 @@ public class VehicleService {
             vehicleRequest.getFuelType()
         );
 
+        vehicleDAO.save(vehicle);
+
         //todo looks ugly
         String temperatureMonitoringTech = vehicleRequest.getTemperatureMonitoringTech();
 
@@ -94,9 +96,6 @@ public class VehicleService {
 
             techService.addTech(tech);
         }
-
-
-        vehicleDAO.save(vehicle);
 
         return vehicle;
     }
