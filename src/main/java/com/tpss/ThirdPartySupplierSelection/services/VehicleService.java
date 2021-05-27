@@ -56,6 +56,7 @@ public class VehicleService {
             vehicleRequest.getVehicleType(),
             vehicleRequest.getVehicleModel(),
             vehicleRequest.getVehicleCapacity(),
+            vehicleRequest.getProviderID(),
             vehicleRequest.getCapacityUnit(),
             vehicleRequest.getAreaCoverage(),
             vehicleRequest.getCoverageUnit(),

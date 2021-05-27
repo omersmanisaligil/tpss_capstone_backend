@@ -86,6 +86,7 @@ public class DTOMapper {
         orderDTO.setAmountDelivered(order.getAmountDelivered());
         orderDTO.setAmountSpoiled(order.getAmountSpoiled());
         orderDTO.setAmountCrushed(order.getAmountCrushed());
+        orderDTO.setTotalLoss(order.getAmountCrushed()+order.getAmountSpoiled());
         orderDTO.setPaidAmount(order.getPaidAmount());
         orderDTO.setCurrency(order.getCurrency());
         orderDTO.setState(order.getState());

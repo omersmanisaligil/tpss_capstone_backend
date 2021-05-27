@@ -17,6 +17,7 @@ public class OrderDTO {
     private Integer amountDelivered;
     private Integer amountCrushed;
     private Integer amountSpoiled;
+    private Integer totalLoss;
     private Integer paidAmount;
     private String currency;
     private String state;
@@ -168,5 +169,13 @@ public class OrderDTO {
 
     public void setProvider(Provider provider) {
 	this.provider = provider;
+    }
+
+    public Integer getTotalLoss() {
+	return totalLoss;
+    }
+
+    public void setTotalLoss(Integer totalLoss) {
+	this.totalLoss = totalLoss;
     }
 }

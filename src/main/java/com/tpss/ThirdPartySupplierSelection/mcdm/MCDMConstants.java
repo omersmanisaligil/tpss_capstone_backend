@@ -1,7 +1,6 @@
 package com.tpss.ThirdPartySupplierSelection.mcdm;
 
 public class MCDMConstants {
-
     //main criteria weights
     public static final Double C1 = 0.191;
     public static final Double C2 = 0.226;

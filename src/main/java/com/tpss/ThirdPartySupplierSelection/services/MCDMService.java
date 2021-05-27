@@ -51,10 +51,6 @@ public class MCDMService {
         return filteredProvidersPage;
     }
 
-//    public Page<ProviderDTO> applyTOPSIS(ProviderOrderRequest providerOrderRequest, int page, int size){
-
-//    }
-
     public Page<ProviderDTO> applyWASPAS(ProviderOrderRequest providerOrderRequest, int page, int size) {
         Pageable pageRequest = PageRequest.of(page, size);
 
