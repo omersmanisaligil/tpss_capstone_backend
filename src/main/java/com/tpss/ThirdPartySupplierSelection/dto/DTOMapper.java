@@ -128,7 +128,7 @@ public class DTOMapper {
         Set<Provider> providers = new HashSet<Provider>();
 
         certificateDTO.setCertId(certificate.getCertId());
-        certificateDTO.setCertName(certificateDTO.getCertName());
+        certificateDTO.setCertName(certificate.getCertName());
 
         certificateDTO.setProviders(providers);
 
