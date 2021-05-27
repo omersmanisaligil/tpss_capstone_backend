@@ -2,10 +2,7 @@ package com.tpss.ThirdPartySupplierSelection.dto;
 
 import com.tpss.ThirdPartySupplierSelection.entity.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DTOMapper {
@@ -136,6 +133,16 @@ public class DTOMapper {
         certificateDTO.setProviders(providers);
 
         return certificateDTO;
+    }
+
+    public static WaspasDTO toWaspasDTO(HashMap<Long,double[]> normalizedMatrice,
+                                        HashMap<Long,double[]> q1,
+                                        HashMap<Long,double[]> q2,
+                                        HashMap<Long,Double> wsm,
+                                        HashMap<Long,Double> wpm,
+                                        HashMap<Long, Double> finalRank){
+
+        return null;
     }
 
     public static List<VehicleDTO> toVehicleDTOList(List<Vehicle> vehicleList){
