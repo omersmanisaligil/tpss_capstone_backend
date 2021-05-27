@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -40,7 +41,7 @@ public class ProductService {
     }
 
     public Product getOneByProductName(String productName){
-        Product product = productDAO.findByProductName(productName).get();
+        Product product = productDAO.findByProductName(productName.toUpperCase()).get();
         return product;
     }
 
@@ -79,8 +80,8 @@ public class ProductService {
         if(!existsByProductName(product.getProductName())){
             product.setProductName(product.getProductName().toUpperCase());
             productDAO.save(product);
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

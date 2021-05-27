@@ -131,6 +131,7 @@ public class ProviderService{
                     Product product = productService.getOneByProductName(productName);
 
                     product.insertProvider(provider);
+                    provider.insertProduct(product);
                 }
                 else{
                     responseMessage += " product " + productName + " not recognized, it does not exist in the database\n" +

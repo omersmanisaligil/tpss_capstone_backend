@@ -69,7 +69,7 @@ public class ProviderController {
     @PostMapping(path="/add")
     public ResponseEntity<?> addProvider(@Validated @NonNull @RequestBody AddProviderRequest addProviderRequest){
 	providerService.addProvider(addProviderRequest);
-	return ResponseEntity.status(HttpStatus.OK).build();
+	return ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("provider added"));
     }
     @PostMapping(path="{id}/insertOrder")
     public ResponseEntity<?> insertOrder(@Validated @NonNull @RequestBody Order order,

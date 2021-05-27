@@ -116,7 +116,7 @@ public class UserService {
         if (roleStr == null) {
             roles.add(userRole);
         } else {
-            switch (roleStr) {
+            switch (roleStr.toLowerCase()) {
                 case "admin":
                     roles.add(adminRole);
                     roles.add(personnelRole);
