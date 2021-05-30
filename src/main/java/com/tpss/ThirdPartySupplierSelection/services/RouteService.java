@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -74,7 +75,7 @@ public class RouteService {
         Vehicle vehicle = vehicleService.getOneByID(addRouteToVehicle.getVehicleId()).get();
 
         Route route = new Route(addRouteToVehicle.getFrom(),addRouteToVehicle.getTo(),
-                                addRouteToVehicle.getDestinations().toString());
+                                Arrays.toString(addRouteToVehicle.getDestinations()));
         routeDAO.save(route);
         vehicle.insertRoute(route);
     }

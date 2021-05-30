@@ -13,6 +13,7 @@ public class AddProviderRequest {
 
     Integer foundationYear;
 
+    @NonNull
     String operationArea;
 
     String[] productNames;

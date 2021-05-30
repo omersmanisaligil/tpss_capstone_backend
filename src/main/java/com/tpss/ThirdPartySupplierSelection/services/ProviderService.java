@@ -105,11 +105,13 @@ public class ProviderService{
         String[] certNames = addProviderRequest.getCertNames();
         String[] productNames = addProviderRequest.getProductNames();
         //TODO write mapper class
+        String operationArea = addProviderRequest.getOperationArea();
+        if(operationArea==null) operationArea = "unidentified";
         Provider provider = new Provider(
         addProviderRequest.getProviderName(),
         addProviderRequest.getProviderDesc(),
         addProviderRequest.getFoundationYear(),
-        addProviderRequest.getOperationArea()
+        operationArea
         );
 
         if (certNames != null && certNames.length > 0) {
