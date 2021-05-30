@@ -67,7 +67,7 @@ public class MCDMService {
         filters.put("unit", providerOrderRequest.getUnit());
 
         List<Provider> providers = providerDAOImpl.filterDataForOrders(filters);
-        System.out.println("MCDMService.applyWASPAS: providers: " + Arrays.toString(providers.toArray()));
+        //System.out.println("MCDMService.applyWASPAS: providers: " + Arrays.toString(providers.toArray()));
         WaspasDTO waspasDTO = WaspasImpl.execute(providers);
 
         return waspasDTO;

@@ -13,25 +13,22 @@ public class WaspasImpl {
     private static double lambda = 0.5;
 
     public static WaspasDTO execute(List<Provider> list) {
-        System.out.println("WaspasImpl.execute() list: " + Arrays.toString(list.toArray()));
         List<ProviderDTO> providerDTOs = MCDMCriteriaPoints.determineCriteriaPoints(list);
         HashMap<Long,double[]> providerMap = new HashMap<>();
         for (ProviderDTO p : providerDTOs) {
-          //  System.out.println("criteria points: " + p.getCriteriaPoints());
 
             int[] intArrProviders = p.getCriteriaPoints();
             double[] doubleArrProviders = new double[17];
             for (int i = 0; i <intArrProviders.length ; i++) {
                 doubleArrProviders[i] = intArrProviders[i];
             }
-
             providerMap.put(p.getProviderId(),doubleArrProviders);
         }
 
         double[] maxValues = findMaxForCriterias(providerMap.values());
-        //System.out.println("max values: " + Arrays.toString(maxValues));
 
         normalizeMatrice(providerMap,maxValues);
+
 
         HashMap<Long,double[]> q1Matrice = Q1(providerMap);
         HashMap<Long,double[]> q2Matrice = Q2(providerMap);
@@ -80,10 +77,12 @@ public class WaspasImpl {
             double[] unnormalizedArr = hmProvider.get(key);
 
             for (int i = 0; i<unnormalizedArr.length;i++){
-                arrNormalize[i] = unnormalizedArr[i]/ maxValues[i];
+                if(unnormalizedArr[i]==0.0) arrNormalize[i]=0.0;
+                else arrNormalize[i] = unnormalizedArr[i]/ maxValues[i];
             }
             hmProvider.put(key,arrNormalize);
         }
+        System.out.println(Arrays.toString(hmProvider.values().toArray())+"\n");
     }
 
     public static HashMap<Long,Double> WSM(HashMap<Long, double[]> hMapQ1) {

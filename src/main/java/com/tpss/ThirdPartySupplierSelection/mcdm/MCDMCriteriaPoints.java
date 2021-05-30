@@ -14,8 +14,6 @@ public class MCDMCriteriaPoints {
 
     public static List<ProviderDTO> determineCriteriaPoints(List<Provider> providers){
         List<ProviderDTO> providerDTOs = DTOMapper.toProviderDTOList(providers);
-	System.out.println("providers: "+providers.toString());
-	System.out.println("providerDTOs: "+providerDTOs.toString());
 	providerDTOs.forEach(
 		provider -> {
 			int[] points = provider.getCriteriaPoints();
@@ -27,7 +25,7 @@ public class MCDMCriteriaPoints {
 			determineCost(points,provider);
 
 			provider.setCriteriaPoints(points);
-		    	System.out.println("provider "+ provider.getProviderName() +" points: " + points);
+		    	System.out.println("MCDCMCriteriaPoints.determineCriteriaPoints provider "+ provider.getProviderName() +" points: " + Arrays.toString(points));
 		}
 	);
 
@@ -137,6 +135,7 @@ public class MCDMCriteriaPoints {
     private static int determineC32(ProviderDTO provider) {
     	Set<Order> orders = provider.getOrders();
 	int orderCount = orders.size();
+	//System.out.println("determineC32: orders " + orders);
 
 	if(orderCount > 50)
 	    return 5;
