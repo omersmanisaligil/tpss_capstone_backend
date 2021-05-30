@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class MCDMService {
         filters.put("unit", providerOrderRequest.getUnit());
 
         List<Provider> providers = providerDAOImpl.filterDataForOrders(filters);
-
+        System.out.println("MCDMService.applyWASPAS: providers: " + Arrays.toString(providers.toArray()));
         WaspasDTO waspasDTO = WaspasImpl.execute(providers);
 
         return waspasDTO;

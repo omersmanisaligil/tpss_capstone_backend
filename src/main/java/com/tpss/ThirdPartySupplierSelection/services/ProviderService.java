@@ -148,7 +148,7 @@ public class ProviderService{
 
     public void insertOrder(Order order, Long providerID){
         Provider provider = providerDAO.getOne(providerID);
-
+        order.setProviderId(providerID);
         provider.insertOrder(order);
     }
 

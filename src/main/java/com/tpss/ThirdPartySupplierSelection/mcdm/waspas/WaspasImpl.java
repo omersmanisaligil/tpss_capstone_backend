@@ -13,6 +13,7 @@ public class WaspasImpl {
     private static double lambda = 0.5;
 
     public static WaspasDTO execute(List<Provider> list) {
+        System.out.println("WaspasImpl.execute() list: " + Arrays.toString(list.toArray()));
         List<ProviderDTO> providerDTOs = MCDMCriteriaPoints.determineCriteriaPoints(list);
         HashMap<Long,double[]> providerMap = new HashMap<>();
         for (ProviderDTO p : providerDTOs) {

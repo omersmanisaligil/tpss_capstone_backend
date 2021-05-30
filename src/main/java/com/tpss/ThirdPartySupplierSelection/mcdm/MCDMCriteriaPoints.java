@@ -14,6 +14,8 @@ public class MCDMCriteriaPoints {
 
     public static List<ProviderDTO> determineCriteriaPoints(List<Provider> providers){
         List<ProviderDTO> providerDTOs = DTOMapper.toProviderDTOList(providers);
+	System.out.println("providers: "+providers.toString());
+	System.out.println("providerDTOs: "+providerDTOs.toString());
 	providerDTOs.forEach(
 		provider -> {
 			int[] points = provider.getCriteriaPoints();
@@ -25,6 +27,7 @@ public class MCDMCriteriaPoints {
 			determineCost(points,provider);
 
 			provider.setCriteriaPoints(points);
+		    	System.out.println("provider "+ provider.getProviderName() +" points: " + points);
 		}
 	);
 
@@ -158,7 +161,16 @@ public class MCDMCriteriaPoints {
                 completedOrders++;
 	}
 
-    	return 5*(completedOrders/orderCount);
+        int grade;
+
+        try{
+            grade = 5*(completedOrders/orderCount);
+	}
+        catch(ArithmeticException e){
+            grade = 0;
+	}
+
+    	return grade;
     }
 
 
@@ -335,7 +347,16 @@ public class MCDMCriteriaPoints {
             totalAccidents += v.getAccidentCount();
 	}
 
-        return (int)(foodLoss(provider)*2.5 + (totalAccidents/orders.size())*2.5);
+        int grade;
+
+        try{
+            grade=(int)(foodLoss(provider)*2.5 + (totalAccidents/orders.size())*2.5);
+	}
+        catch(ArithmeticException e){
+            grade = 0;
+	}
+
+        return grade;
     }
 
     private static Integer foodLoss(ProviderDTO provider){
@@ -347,7 +368,14 @@ public class MCDMCriteriaPoints {
 	    totalFoodLoss += orderDTO.getTotalLoss();
 	    totalDeliveredAmount += orderDTO.getAmountDelivered();
 	}
+	int foodLost;
 
-	return ((totalFoodLoss/totalDeliveredAmount));
+	try{
+	    foodLost = ((totalFoodLoss/totalDeliveredAmount));
+	}catch(ArithmeticException e){
+	    foodLost = 0;
+	}
+
+	return foodLost;
     }
 }
