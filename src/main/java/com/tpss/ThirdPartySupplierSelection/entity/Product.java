@@ -27,7 +27,7 @@ public class Product {
     @NonNull @Column(name="humidity_unit")
     String humidityUnit;
 
-    @ManyToMany(mappedBy="products", cascade=CascadeType.PERSIST)
+    @ManyToMany(mappedBy="products", fetch=FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JsonIgnore
     private Set<Provider> providers = new HashSet<Provider>();
 

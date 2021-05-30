@@ -41,6 +41,14 @@ public class Certificate {
 	this.certId = certId;
     }
 
+    public Set<Provider> getProviders() {
+	return providers;
+    }
+
+    public void setProviders(Set<Provider> providers) {
+	this.providers = providers;
+    }
+
     public void insertProvider(Provider provider){
         providers.add(provider);
     }

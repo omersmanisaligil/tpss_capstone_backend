@@ -25,7 +25,7 @@ public class Provider {
     @NonNull @Column(name="operation_area")
     String operationArea;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
     name="PROVIDER_PRODUCT_MAP",
     joinColumns = @JoinColumn(name = "provider_id"),

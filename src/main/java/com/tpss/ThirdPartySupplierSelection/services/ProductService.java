@@ -77,11 +77,12 @@ public class ProductService {
     }
 
     public boolean addProduct(Product product){
-        if(!existsByProductName(product.getProductName())){
+        if(!existsByProductName(product.getProductName().toUpperCase())){
             product.setProductName(product.getProductName().toUpperCase());
             productDAO.save(product);
             return false;
         }
+        product.setProductId(productDAO.findByProductName(product.getProductName().toUpperCase()).get().getProductId());
         return true;
     }
 }

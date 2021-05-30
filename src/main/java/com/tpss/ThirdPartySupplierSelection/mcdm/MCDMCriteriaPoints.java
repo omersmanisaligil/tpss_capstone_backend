@@ -69,6 +69,7 @@ public class MCDMCriteriaPoints {
     private static void determineBusinessExcellence(int[] points,ProviderDTO provider){
         points[MCDMConstants.INDEX_FINANCIAL_STABILITY] = determineC31(provider);
 	points[MCDMConstants.INDEX_EXPERIENCE] = determineC32(provider);
+	System.out.println("points[MCDMConstants.INDEX_EXPERIENCE]: " + points[MCDMConstants.INDEX_EXPERIENCE]);
 	points[MCDMConstants.INDEX_HUMAN_RES] = determineC33();
 	points[MCDMConstants.INDEX_PARTNERSHIP] = determineC34(provider);
     }
@@ -135,8 +136,8 @@ public class MCDMCriteriaPoints {
     private static int determineC32(ProviderDTO provider) {
     	Set<Order> orders = provider.getOrders();
 	int orderCount = orders.size();
-	//System.out.println("determineC32: orders " + orders);
-
+	System.out.println("determineC32: orders " + orders);
+	System.out.println("determineC32 orderCount " + (orderCount>50));
 	if(orderCount > 50)
 	    return 5;
 	else if(orderCount <= 50)

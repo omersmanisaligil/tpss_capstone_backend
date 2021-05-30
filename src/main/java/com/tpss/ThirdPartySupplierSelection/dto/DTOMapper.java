@@ -96,7 +96,7 @@ public class DTOMapper {
 
     public static ProductDTO toProductDTO(Product product){
         ProductDTO productDTO = new ProductDTO();
-        Set<Provider> providers = new HashSet<Provider>();
+        Set<Provider> providers = product.getProviders();
 
         productDTO.setProductId(product.getProductId());
         productDTO.setProductName(product.getProductName());
@@ -118,14 +118,14 @@ public class DTOMapper {
         routeDTO.setFrom(route.getFrom());
         routeDTO.setTo(route.getTo());
         routeDTO.setDestinations(route.getDestinations());
-        routeDTO.setVehicle(route.getVehicle());
+        routeDTO.setVehicle(vehicle);
 
         return routeDTO;
     }
 
     public static CertificateDTO toCertDTO(Certificate certificate){
         CertificateDTO certificateDTO = new CertificateDTO();
-        Set<Provider> providers = new HashSet<Provider>();
+        Set<Provider> providers = certificate.getProviders();
 
         certificateDTO.setCertId(certificate.getCertId());
         certificateDTO.setCertName(certificate.getCertName());

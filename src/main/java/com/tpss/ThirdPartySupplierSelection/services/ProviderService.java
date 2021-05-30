@@ -1,5 +1,7 @@
 package com.tpss.ThirdPartySupplierSelection.services;
 
+import com.tpss.ThirdPartySupplierSelection.dao.CertificateDAO;
+import com.tpss.ThirdPartySupplierSelection.dao.ProductDAO;
 import com.tpss.ThirdPartySupplierSelection.dao.ProviderDAO;
 import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
@@ -8,8 +10,6 @@ import com.tpss.ThirdPartySupplierSelection.payload.request.AddProviderRequest;
 import com.tpss.ThirdPartySupplierSelection.payload.request.AddVehicleRequest;
 import com.tpss.ThirdPartySupplierSelection.util.PageImplCustom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +22,12 @@ public class ProviderService{
 
     @Autowired
     ProviderDAO providerDAO;
+
+    @Autowired
+    ProductDAO productDAO;
+
+    @Autowired
+    CertificateDAO certDAO;
 
     @Autowired
     CertificateService certificateService;
@@ -150,6 +156,7 @@ public class ProviderService{
         Provider provider = providerDAO.getOne(providerID);
         order.setProviderId(providerID);
         provider.insertOrder(order);
+        providerDAO.save(provider);
     }
 
     public void insertVehicle(AddVehicleRequest vehicleRequest, Long providerID){
@@ -158,12 +165,17 @@ public class ProviderService{
         Vehicle vehicle = vehicleService.addVehicle(vehicleRequest);
 
         provider.insertVehicle(vehicle);
+        providerDAO.save(provider);
     }
 
     public boolean insertProduct(Product product, Long providerID){
-        Provider provider = providerDAO.getOne(providerID);
+        Provider provider = providerDAO.findById(providerID).get();
         boolean productExists = productService.addProduct(product);
         provider.insertProduct(product);
+        product.insertProvider(provider);
+        providerDAO.save(provider);
+        productDAO.save(product);
+
         return productExists;
     }
 
@@ -174,6 +186,10 @@ public class ProviderService{
         if(certExists)
             provider.insertCertificate(cert);
 
+        cert.insertProvider(provider);
+
+        certDAO.save(cert);
+        providerDAO.save(provider);
         return certExists;
     }
 
