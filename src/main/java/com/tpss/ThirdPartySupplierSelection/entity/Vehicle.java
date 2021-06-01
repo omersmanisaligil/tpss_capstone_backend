@@ -262,7 +262,9 @@ public class Vehicle {
     }
 
     public Integer getAccidentCount() {
-	return accidentCount;
+	if(accidentCount == null)
+	    return 0;
+        return accidentCount;
     }
 
     public void setAccidentCount(Integer accidentCount) {

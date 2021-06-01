@@ -5,6 +5,7 @@ import com.tpss.ThirdPartySupplierSelection.dto.OrderDTO;
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Order;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
+import com.tpss.ThirdPartySupplierSelection.entity.Tech;
 import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
 import com.tpss.ThirdPartySupplierSelection.mcdm.MCDMConstants;
 
@@ -177,36 +178,37 @@ public class MCDMCriteriaPoints {
 	int aGrade, bGrade, cGrade, dGrade, eGrade;
 	aGrade = bGrade = cGrade = dGrade = eGrade = 0;
 	String parm;
+	Tech tech;
 	for (Vehicle v : provider.getVehicles()) {
-	    if(attr == "tempMonitor"){
-	        parm = v.getTech().getTemperatureMonitoringTech();
-	    }
-	    else if(attr == "humidityMonitor"){
-	        parm = v.getTech().getHumidityMonitoringTech();
-	    }
-	    else if(attr == "tempMaintaining"){
-	        parm = v.getTech().getTempMaintainingTech();
-	    }
-	    else{
-	        parm = v.getTech().getHumidityMaintainingTech();
-	    }
+	    tech = v.getTech();
+	    if (tech != null) {
+		if (attr == "tempMonitor") {
+		    parm = tech.getTemperatureMonitoringTech();
+		} else if (attr == "humidityMonitor") {
+		    parm = tech.getHumidityMonitoringTech();
+		} else if (attr == "tempMaintaining") {
+		    parm = tech.getTempMaintainingTech();
+		} else {
+		    parm = tech.getHumidityMaintainingTech();
+		}
 
-	    switch(parm.toLowerCase()){
-		case "a grade":
-		    aGrade++;
-		    break;
-		case "b grade":
-		    bGrade++;
-		    break;
-		case "c grade":
-		    cGrade++;
-		    break;
-		case "d grade":
-		    dGrade++;
-		    break;
-		case "e grade":
-		    eGrade++;
-		    break;
+		switch (parm.toLowerCase()) {
+		    case "a grade":
+			aGrade++;
+			break;
+		    case "b grade":
+			bGrade++;
+			break;
+		    case "c grade":
+			cGrade++;
+			break;
+		    case "d grade":
+			dGrade++;
+			break;
+		    case "e grade":
+			eGrade++;
+			break;
+		}
 	    }
 	}
 	return Integer.valueOf((int)(((aGrade * 1 + bGrade * 0.8 + cGrade * 0.6 + dGrade * 0.4 + eGrade*0.2)/vehicleCount)*5));
@@ -337,13 +339,14 @@ public class MCDMCriteriaPoints {
 	return Integer.valueOf((int)(((countCapacityXL * 1 + countCapacityL * 0.8 + countCapacityM * 0.6 + countCapacityS * 0.4 + countCapacityXS*0.2)/vehicles.size())*5));
     }
 
-    private static Integer determineC24(ProviderDTO provider){
+    private static int determineC24(ProviderDTO provider){
 	Set<Order> orders = provider.getOrders();
 	Set<Vehicle> vehicles = provider.getVehicles();
         int totalAccidents = 0;
 
         for(Vehicle v : vehicles){
-            totalAccidents += v.getAccidentCount();
+            if(v!=null)
+            	totalAccidents += v.getAccidentCount();
 	}
 
         int grade;
