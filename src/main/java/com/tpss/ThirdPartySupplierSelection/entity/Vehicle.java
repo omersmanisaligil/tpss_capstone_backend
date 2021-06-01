@@ -132,6 +132,7 @@ public class Vehicle {
 		   Integer lowestHumidity,
 		   Integer highestHumidity,
 		   String humidityUnit,
+		   Integer accidentCount,
 		   String fuelType) {
         this.providerID = providerID;
 	this.vehicleType = vehicleType;
@@ -147,6 +148,7 @@ public class Vehicle {
 	this.highestHumidity = highestHumidity;
 	this.humidityUnit = humidityUnit;
 	this.fuelType = fuelType;
+	this.accidentCount = accidentCount;
     }
 
     public Tech getTech() {

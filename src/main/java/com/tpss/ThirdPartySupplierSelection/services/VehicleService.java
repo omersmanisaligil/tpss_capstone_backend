@@ -70,6 +70,7 @@ public class VehicleService {
             vehicleRequest.getLowestHumidity(),
             vehicleRequest.getHighestHumidity(),
             vehicleRequest.getHumidityUnit(),
+            vehicleRequest.getAccidentCount(),
             vehicleRequest.getFuelType()
         );
 

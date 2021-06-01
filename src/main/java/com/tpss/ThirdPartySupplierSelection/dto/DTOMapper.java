@@ -61,6 +61,7 @@ public class DTOMapper {
         vehicleDTO.setLowestHumidity(vehicle.getLowestHumidity());
         vehicleDTO.setHighestHumidity(vehicle.getHighestHumidity());
         vehicleDTO.setHumidityUnit(vehicle.getHumidityUnit());
+        vehicleDTO.setAccidentCount(vehicle.getAccidentCount());
         vehicleDTO.setRoutes(routes);
         vehicleDTO.setProvider(provider);
         vehicleDTO.setTech(tech);

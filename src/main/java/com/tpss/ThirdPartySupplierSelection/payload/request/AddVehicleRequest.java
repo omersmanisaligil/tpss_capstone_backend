@@ -45,6 +45,8 @@ public class AddVehicleRequest {
 
     private String fuelType;
 
+    private Integer accidentCount;
+
     @NonNull
     public String getProviderName() {
 	return providerName;
@@ -196,5 +198,13 @@ public class AddVehicleRequest {
 
     public void setHumidityMaintainingTech(String humidityMaintainingTech) {
 	this.humidityMaintainingTech = humidityMaintainingTech;
+    }
+
+    public Integer getAccidentCount() {
+	return accidentCount;
+    }
+
+    public void setAccidentCount(Integer accidentCount) {
+	this.accidentCount = accidentCount;
     }
 }

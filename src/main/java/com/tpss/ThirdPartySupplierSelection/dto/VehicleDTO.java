@@ -23,6 +23,7 @@ public class VehicleDTO {
     private Integer lowestHumidity;
     private Integer highestHumidity;
     private String humidityUnit;
+    private Integer accidentCount;
 
     private Tech tech;
 
@@ -38,7 +39,7 @@ public class VehicleDTO {
 		      String coverageUnit, Integer lowestTemp,
 		      Integer highestTemp, String tempUnit,
 		      Integer lowestHumidity, Integer highestHumidity,
-		      String humidityUnit) {
+		      Integer accidentCount,String humidityUnit) {
 	this.vehicleId = vehicleId;
 	this.providerID = providerID;
 	this.vehicleType = vehicleType;
@@ -50,6 +51,7 @@ public class VehicleDTO {
 	this.lowestTemp = lowestTemp;
 	this.highestTemp = highestTemp;
 	this.tempUnit = tempUnit;
+	this.accidentCount = accidentCount;
 	this.lowestHumidity = lowestHumidity;
 	this.highestHumidity = highestHumidity;
 	this.humidityUnit = humidityUnit;
@@ -61,8 +63,8 @@ public class VehicleDTO {
 		      String coverageUnit, Integer lowestTemp,
 		      Integer highestTemp, String tempUnit,
 		      Integer lowestHumidity, Integer highestHumidity,
-		      String humidityUnit, Tech tech, Set<Route> routes,
-		      Provider provider) {
+		      String humidityUnit, Tech tech,
+		      Set<Route> routes, Provider provider) {
 	this.vehicleId = vehicleId;
 	this.providerID = providerID;
 	this.vehicleType = vehicleType;
@@ -216,5 +218,13 @@ public class VehicleDTO {
 
     public void setProvider(Provider provider) {
 	this.provider = provider;
+    }
+
+    public Integer getAccidentCount() {
+	return accidentCount;
+    }
+
+    public void setAccidentCount(Integer accidentCount) {
+	this.accidentCount = accidentCount;
     }
 }
