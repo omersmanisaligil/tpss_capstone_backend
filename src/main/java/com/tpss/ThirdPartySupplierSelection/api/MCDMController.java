@@ -28,8 +28,8 @@ public class MCDMController {
         return ResponseEntity.status(HttpStatus.OK).body(providers);
     }
 
-    @GetMapping("/waspas")
-    public ResponseEntity<WaspasDTO> applyWASPAS(ProviderOrderRequest providerOrderRequest){
+    @PostMapping("/waspas")
+    public ResponseEntity<WaspasDTO> applyWASPAS(@RequestBody ProviderOrderRequest providerOrderRequest){
         WaspasDTO waspasResults = mcdmService.applyWASPAS(providerOrderRequest);
         return ResponseEntity.status(HttpStatus.OK).body(waspasResults);
     }

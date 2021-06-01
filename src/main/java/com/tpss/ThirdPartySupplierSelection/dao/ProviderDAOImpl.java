@@ -1,5 +1,7 @@
 package com.tpss.ThirdPartySupplierSelection.dao;
 
+import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
+import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Provider;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +30,7 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
 
 
     @Override
-    public List<Provider> filterData(HashMap<String, Object> filters) {
+    public List<ProviderDTO> filterData(HashMap<String, Object> filters) {
 	String queryPt2 = " (SELECT pr.PRODUCT_ID,pr.PRODUCT_NAME,pr.TEMP_IDEAL,pr.temp_unit,pr.humidity_ideal,pr.humidity_unit, pm.provider_id" +
 	" FROM PRODUCT pr" +
 	" INNER JOIN PROVIDER_PRODUCT_MAP pm ON pr.PRODUCT_ID=pm.PRODUCT_ID" +
@@ -75,11 +77,21 @@ public class ProviderDAOImpl implements ProviderDAOCustom{
 	    q.setParameter(i+1, params.get(i));
 	}
 	List<Provider> result = q.getResultList();
-	return result;
+
+	List<ProviderDTO> resultDTO = DTOMapper.toProviderDTOList(result);
+	List<ProviderDTO> filteredResults = new ArrayList<>();
+	for (ProviderDTO p:
+	     resultDTO) {
+	    Integer greenP = p.getGreenPercentage();
+	    if(greenP >= (Integer)filters.get("greenPercentage"))
+	        filteredResults.add(p);
+	}
+
+	return filteredResults;
     }
 
-    public List<Provider> filterDataForOrders(HashMap<String, Object> filters) {
-        List<Provider> filteredProviders = filterData(filters);
+    public List<ProviderDTO> filterDataForOrders(HashMap<String, Object> filters) {
+        List<ProviderDTO> filteredProviders = filterData(filters);
 
 
         return filteredProviders;

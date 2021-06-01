@@ -12,8 +12,7 @@ import java.util.*;
 
 public class MCDMCriteriaPoints {
 
-    public static List<ProviderDTO> determineCriteriaPoints(List<Provider> providers){
-        List<ProviderDTO> providerDTOs = DTOMapper.toProviderDTOList(providers);
+    public static List<ProviderDTO> determineCriteriaPoints(List<ProviderDTO> providerDTOs){
 	providerDTOs.forEach(
 		provider -> {
 			int[] points = provider.getCriteriaPoints();

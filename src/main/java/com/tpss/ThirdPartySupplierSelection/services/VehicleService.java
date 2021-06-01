@@ -1,5 +1,6 @@
 package com.tpss.ThirdPartySupplierSelection.services;
 
+import com.tpss.ThirdPartySupplierSelection.dao.TechDAO;
 import com.tpss.ThirdPartySupplierSelection.dao.VehicleDAO;
 import com.tpss.ThirdPartySupplierSelection.entity.Route;
 import com.tpss.ThirdPartySupplierSelection.entity.Tech;
@@ -21,6 +22,9 @@ public class VehicleService {
 
     @Autowired
     TechService techService;
+
+    @Autowired
+    TechDAO techDAO;
 
     public Page<Vehicle> getAll(int page, int size){
         Pageable pageRequest = PageRequest.of(page, size);
@@ -107,6 +111,9 @@ public class VehicleService {
     }
 
     public void addTech(Tech tech, Long id){
+        Vehicle vehicle = vehicleDAO.getOne(id);
 
+        tech.insertVehicle(vehicle);
+        techDAO.save(tech);
     }
 }

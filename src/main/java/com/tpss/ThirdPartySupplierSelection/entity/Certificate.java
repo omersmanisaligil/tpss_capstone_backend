@@ -1,5 +1,6 @@
 package com.tpss.ThirdPartySupplierSelection.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ public class Certificate {
     public Certificate(){}
 
     @ManyToMany(mappedBy = "certificates", cascade=CascadeType.PERSIST)
+    @JsonIgnore
     private Set<Provider> providers = new HashSet<Provider>();
 
     @NonNull

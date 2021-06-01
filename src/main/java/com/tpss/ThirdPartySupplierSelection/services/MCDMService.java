@@ -45,8 +45,7 @@ public class MCDMService {
         filters.put("greenPercentage",providerFilterRequest.getGreenPercentage());
         filters.put("certs",providerFilterRequest.getCerts());
 
-        List<Provider> filteredProviders = providerDAOImpl.filterData(filters);
-        List<ProviderDTO> filteredProvidersDTO = DTOMapper.toProviderDTOList(filteredProviders);
+        List<ProviderDTO> filteredProvidersDTO = providerDAOImpl.filterData(filters);
         Page<ProviderDTO> filteredProvidersPage = PageImplCustom.createPage(
                                                     filteredProvidersDTO,
                                                     pageRequest);
@@ -66,9 +65,9 @@ public class MCDMService {
         filters.put("amount", providerOrderRequest.getAmount());
         filters.put("unit", providerOrderRequest.getUnit());
 
-        List<Provider> providers = providerDAOImpl.filterDataForOrders(filters);
+        List<ProviderDTO> providerDTOs = providerDAOImpl.filterDataForOrders(filters);
         //System.out.println("MCDMService.applyWASPAS: providers: " + Arrays.toString(providers.toArray()));
-        WaspasDTO waspasDTO = WaspasImpl.execute(providers);
+        WaspasDTO waspasDTO = WaspasImpl.execute(providerDTOs);
 
         return waspasDTO;
     }
