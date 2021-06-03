@@ -1,8 +1,8 @@
 package com.tpss.ThirdPartySupplierSelection.entity.constants;
 
 public class OrderState {
-    public final String FULFILLED = "FULFILLED";
-    public final String PLACED ="PLACED";
-    public final String ACCEPTED ="ACCEPTED";
-    public final String EXPIRED ="EXPIRED";
+    public static final String FULFILLED = "FULFILLED";
+    public static final String PLACED ="PLACED";
+    public static final String ACCEPTED ="ACCEPTED";
+    public static final String EXPIRED ="EXPIRED";
 }

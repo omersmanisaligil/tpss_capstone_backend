@@ -4,12 +4,12 @@ import com.tpss.ThirdPartySupplierSelection.dto.DTOMapper;
 import com.tpss.ThirdPartySupplierSelection.dto.OrderDTO;
 import com.tpss.ThirdPartySupplierSelection.dto.ProviderDTO;
 import com.tpss.ThirdPartySupplierSelection.entity.Order;
-import com.tpss.ThirdPartySupplierSelection.entity.Provider;
 import com.tpss.ThirdPartySupplierSelection.entity.Tech;
 import com.tpss.ThirdPartySupplierSelection.entity.Vehicle;
-import com.tpss.ThirdPartySupplierSelection.mcdm.MCDMConstants;
+import com.tpss.ThirdPartySupplierSelection.entity.constants.OrderState;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MCDMCriteriaPoints {
 
@@ -105,7 +105,16 @@ public class MCDMCriteriaPoints {
     }
 
     private static int determineC42(ProviderDTO provider) {
-	return (int)Math.random()*5;
+        Set<Vehicle> vehicles = provider.getVehicles();
+	int orderCount = provider.getOrders().size();
+	int accidentCountTotal=0;
+	int grade=0;
+	for (Vehicle v: vehicles) {
+	    accidentCountTotal += v.getAccidentCount();
+	}
+	grade = 5-(5*accidentCountTotal/orderCount);
+
+	return grade;
     }
 
     private static int determineC41(ProviderDTO provider) {
@@ -126,7 +135,35 @@ public class MCDMCriteriaPoints {
     }
 
     private static int determineC34(ProviderDTO provider) {
-        return (int)Math.random()*5;
+	Set<Order> orders = provider.getOrders();
+	int orderSize=0;
+	Date mostRecent = null;
+	Date first = null;
+	if(orders!=null) {
+	    orderSize = orders.size();
+	    mostRecent = (Date)orders.stream().toArray()[0];
+	    first = (Date)orders.stream().toArray()[orderSize-1];
+	}
+
+	int grade = 0;
+
+	for (Order o:orders) {
+	    if(o.getActualArrival().compareTo(first)==-1)
+	        first=o.getActualArrival();
+	    if(o.getActualArrival().compareTo(mostRecent)==1)
+	        mostRecent=o.getActualArrival();
+	}
+	long diffInMillies = Math.abs(mostRecent.getTime() - first.getTime());
+	long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+	double orderPerDay = orderSize/diff;
+	if(orderPerDay>=1)
+	    grade = 5;
+	else{
+	    grade = (int)(5*orderPerDay);
+	}
+
+        return grade;
     }
 
     private static int determineC33() {
@@ -136,15 +173,13 @@ public class MCDMCriteriaPoints {
     private static int determineC32(ProviderDTO provider) {
     	Set<Order> orders = provider.getOrders();
 	int orderCount = orders.size();
-	System.out.println("determineC32: orders " + orders);
-	System.out.println("determineC32 orderCount " + (orderCount>50));
 	if(orderCount > 50)
 	    return 5;
-	else if(orderCount <= 50)
+	else if(orderCount >= 40)
 	    return 4;
-	else if(orderCount <= 40)
+	else if(orderCount >= 30)
 	    return 3;
-	else if(orderCount <= 30)
+	else if(orderCount >= 20)
 	    return 2;
 	else
 	    return 1;
@@ -157,7 +192,7 @@ public class MCDMCriteriaPoints {
         int completedOrders = 0;
 
         for(Order o : orders){
-            if(o.getState().equalsIgnoreCase("complete"))
+            if(o.getState().equalsIgnoreCase(OrderState.FULFILLED))
                 completedOrders++;
 	}
 
