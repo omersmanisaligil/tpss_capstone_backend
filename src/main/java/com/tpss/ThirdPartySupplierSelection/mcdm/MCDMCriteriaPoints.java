@@ -112,7 +112,11 @@ public class MCDMCriteriaPoints {
 	for (Vehicle v: vehicles) {
 	    accidentCountTotal += v.getAccidentCount();
 	}
-	grade = 5-(5*accidentCountTotal/orderCount);
+	try{
+	    grade = 5-(5*accidentCountTotal/orderCount);
+	}catch(ArithmeticException e){
+	    grade = 1;
+	}
 
 	return grade;
     }
@@ -139,7 +143,7 @@ public class MCDMCriteriaPoints {
 	int orderSize=0;
 	Date mostRecent = null;
 	Date first = null;
-	if(orders!=null) {
+	if(orders!=null && !orders.isEmpty()) {
 	    orderSize = orders.size();
 	    mostRecent = (Date)orders.stream().toArray()[0];
 	    first = (Date)orders.stream().toArray()[orderSize-1];
@@ -153,10 +157,21 @@ public class MCDMCriteriaPoints {
 	    if(o.getActualArrival().compareTo(mostRecent)==1)
 	        mostRecent=o.getActualArrival();
 	}
-	long diffInMillies = Math.abs(mostRecent.getTime() - first.getTime());
-	long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
-	double orderPerDay = orderSize/diff;
+	long diffInMillies =0;
+	long diff =0;
+	double orderPerDay=0;
+	if(mostRecent!=null && first!=null){
+	 diffInMillies = Math.abs(mostRecent.getTime() - first.getTime());
+	 diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+	}
+
+	try{
+	    orderPerDay = orderSize/diff;
+	}catch(ArithmeticException e){
+	    orderPerDay=0.2;
+	}
+
 	if(orderPerDay>=1)
 	    grade = 5;
 	else{
