@@ -106,31 +106,41 @@ public class MCDMCriteriaPoints {
 
     private static int determineC42(ProviderDTO provider) {
         Set<Vehicle> vehicles = provider.getVehicles();
-	int orderCount = provider.getOrders().size();
-	int accidentCountTotal=0;
-	int grade=0;
-	for (Vehicle v: vehicles) {
-	    accidentCountTotal += v.getAccidentCount();
-	}
-	try{
-	    grade = 5-(5*accidentCountTotal/orderCount);
-	}catch(ArithmeticException e){
-	    grade = 1;
-	}
+		int orderCount = provider.getOrders().size();
+		System.out.println(orderCount);
+		double accidentCountTotal=0;
+		double accidentPerVehicle=0.0;
+		int grade=0;
+		for (Vehicle v: vehicles) {
+			accidentCountTotal += v.getAccidentCount();
+		}
 
-	return grade;
+		accidentPerVehicle = accidentCountTotal / vehicles.size();
+
+		if(accidentPerVehicle >1)
+			grade=1;
+		else if(accidentPerVehicle>0.8)
+			grade=2;
+		else if(accidentPerVehicle>0.6)
+			grade=3;
+		else if(accidentPerVehicle>0.4)
+			grade=4;
+		else
+			grade=5;
+
+		return grade;
     }
 
     private static int determineC41(ProviderDTO provider) {
 	double greenPercentage = provider.getGreenPercentage();
 	int grade = 0;
-	if(greenPercentage > 0.8)
+	if(greenPercentage > 80)
 	    grade = 5;
-	else if(greenPercentage > 0.6)
+	else if(greenPercentage > 60)
 	    grade = 4;
-	else if(greenPercentage > 0.4)
+	else if(greenPercentage > 40)
 	    grade = 3;
-	else if(greenPercentage > 0.2)
+	else if(greenPercentage > 20)
 	    grade = 2;
 	else
 	    grade = 1;
