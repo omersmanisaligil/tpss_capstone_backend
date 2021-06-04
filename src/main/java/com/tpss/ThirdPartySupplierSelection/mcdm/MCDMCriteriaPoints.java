@@ -87,7 +87,8 @@ public class MCDMCriteriaPoints {
     }
 
     private static int determine52(ProviderDTO provider) {
-        return foodLoss(provider)*5;
+        int grade = (1-foodLoss(provider))*5;
+        return grade;
     }
 
     private static int determineC51(ProviderDTO provider) {
@@ -240,7 +241,7 @@ public class MCDMCriteriaPoints {
             System.out.println("determinec31:" + e.getMessage());
             grade = 1;
         }
-
+        if(grade==0) grade=1;
         return grade;
     }
 
@@ -450,6 +451,7 @@ public class MCDMCriteriaPoints {
             grade = 1;
         }
 
+        if(grade==0) grade=1;
         return grade;
     }
 
