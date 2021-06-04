@@ -46,7 +46,7 @@ public class Vehicle {
     private Integer accidentCount;
 
     @ManyToOne
-    @JoinColumn(name="tech_id", referencedColumnName="tech_id", insertable=false, updatable=false)
+    @JoinColumn(name="tech_id", referencedColumnName="tech_id", insertable=true, updatable=true)
     @JsonIgnore
     private Tech tech;
 

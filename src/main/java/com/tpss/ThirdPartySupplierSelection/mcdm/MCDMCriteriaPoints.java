@@ -248,6 +248,8 @@ public class MCDMCriteriaPoints {
 	Tech tech;
 	for (Vehicle v : provider.getVehicles()) {
 	    tech = v.getTech();
+		System.out.println("tech: " + tech);
+		System.out.println("attr: "+attr);
 	    if (tech != null) {
 		if (attr == "tempMonitor") {
 		    parm = tech.getTemperatureMonitoringTech();

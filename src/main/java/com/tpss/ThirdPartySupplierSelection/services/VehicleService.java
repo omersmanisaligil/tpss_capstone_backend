@@ -114,7 +114,9 @@ public class VehicleService {
     public void addTech(Tech tech, Long id){
         Vehicle vehicle = vehicleDAO.getOne(id);
 
-        tech.insertVehicle(vehicle);
         techDAO.save(tech);
+        tech.insertVehicle(vehicle);
+        vehicle.setTech(tech);
+        vehicleDAO.save(vehicle);
     }
 }
