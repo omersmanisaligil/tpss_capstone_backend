@@ -145,8 +145,8 @@ public class MCDMCriteriaPoints {
 	Date first = null;
 	if(orders!=null && !orders.isEmpty()) {
 	    orderSize = orders.size();
-	    mostRecent = (Date)orders.stream().toArray()[0];
-	    first = (Date)orders.stream().toArray()[orderSize-1];
+	    mostRecent = ((Order)orders.stream().toArray()[0]).getActualArrival();
+	    first = ((Order)orders.stream().toArray()[orderSize-1]).getActualArrival();
 	}
 
 	int grade = 0;
