@@ -92,12 +92,19 @@ public class MCDMCriteriaPoints {
 
     private static int determineC51(ProviderDTO provider) {
         Set<Order> orders = provider.getOrders();
-	double avgAmountPerUnit = 0;
-	for(Order o : orders){
-	    avgAmountPerUnit = o.getPaidAmount()/o.getAmountOrdered();
-	}
-	avgAmountPerUnit = avgAmountPerUnit / orders.size();
-        return (int)avgAmountPerUnit;
+		double avgAmountPerUnit = 0;
+		for(Order o : orders){
+			avgAmountPerUnit = o.getPaidAmount()/o.getAmountOrdered();
+		}
+		avgAmountPerUnit = avgAmountPerUnit / orders.size();
+		int grade = 1;
+		if(avgAmountPerUnit>50) grade=1;
+		else if(avgAmountPerUnit>40) grade=2;
+		else if(avgAmountPerUnit>30) grade=3;
+		else if(avgAmountPerUnit>20) grade=4;
+		else grade=5;
+
+        return grade;
     }
 
     private static int determineC43(int[] points, ProviderDTO provider) {
@@ -410,9 +417,18 @@ public class MCDMCriteriaPoints {
 	}
 
         int grade;
+		int accidentPerVehicle = totalAccidents/vehicles.size();
+		int score=0;
+
+		if(accidentPerVehicle>1) score = 1;
+		else if(accidentPerVehicle>0.8) score=2;
+		else if(accidentPerVehicle>0.6) score=3;
+		else if(accidentPerVehicle>0.4) score=4;
+		else score=5;
+
 
         try{
-            grade=(int)(foodLoss(provider)*2.5 + (totalAccidents/orders.size())*2.5);
+            grade=(int)(foodLoss(provider)*2.5 + (score)*2.5);
 	}
         catch(ArithmeticException e){
             grade = 0;
